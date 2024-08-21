@@ -1,0 +1,160 @@
+.sidebar-container .profile-settings-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    padding: 170px 0px 80px 0px;
+    height: 475px;
+}
+
+.profile-settings-container .image-save-btn-container{
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.profile-settings-container .image-save-btn-container .image-save-btn{
+    cursor: pointer;
+    color: rgb(10, 164, 10);
+}
+.profile-settings-container .image-save-btn-container .image-save-btn:hover{
+    cursor: pointer;
+    color: rgb(17, 205, 17);
+    transition: ease-in-out 0.3s;
+    border-radius: 50%;
+    box-shadow: 0px 0px 2px 6px;
+}
+
+.sidebar-container .profile-settings-container .image {
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-container .profile-settings-container .image img{
+    width: auto;
+    height: 100%;
+    scale: 1.1;
+}
+
+.sidebar-container .profile-settings-container .profile-image-container{
+    margin-bottom: 15px;
+    margin-top: 180px;
+}
+
+.profile-settings-container .settings-container{
+    margin-top: 35px;
+}
+.profile-settings-container .settings-container div{
+    margin-bottom: 20px;
+}
+
+.profile-settings-container .settings-container .username-edit-btn{
+    margin-left: 20px;
+    margin-right: auto;
+}
+
+.profile-settings-container .settings-container .username-edit-btn:hover {
+    color: green;
+    cursor: pointer;
+}
+
+.profile-settings-container .logout-container{
+    margin-top: 20px;
+}
+
+.profile-settings-container .logout-container h4{
+    padding: 10px 20px;
+    width: 140px;
+    height: 45px;
+    border-radius: 25px;
+    background-color: rgb(225, 65, 65);
+    color: white;
+    cursor: pointer;
+    transition:  linear 0.4;
+    text-align: center;
+    font-size: 18px;
+
+}
+.profile-settings-container .logout-container h4:hover{
+    background-color: rgb(233, 54, 54);
+    box-shadow: 0 0 1px 1px rgb(225, 157, 157);
+}
+
+.profile-settings-container .logout-container .loader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid rgb(233, 54, 54);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 3s linear infinite;
+    margin: auto;
+}
+
+
+
+/* media queries starts */
+
+@media (max-width:968px){
+    .sidebar-container .profile-settings-container {
+        padding: 25px 0px 25px 0px;
+        height: 74%;
+    }
+    .sidebar-container .profile-settings-container .image {
+        width: 370px;
+        height: 370px;      
+    }
+    .profile-settings-container .settings-container .name h4,
+    .profile-settings-container .settings-container .name span,
+    .profile-settings-container .settings-container .status h4,
+    .profile-settings-container .settings-container .status span{
+        font-size: 32px;
+    }
+    .profile-settings-container .logout-container h4 {
+        width: 170px;
+        height: 58px;
+        font-size: 26px;
+    }
+}
+
+
+
+@media (max-width:500px){
+    .sidebar-container .profile-settings-container {
+        padding: 220px 0px 90px 0px;
+    }
+    .sidebar-container .profile-settings-container .image {
+        width: 250px;
+        height: 250px;
+    }
+    .profile-settings-container .settings-container .name h4, 
+    .profile-settings-container .settings-container .name span, 
+    .profile-settings-container .settings-container .status h4, 
+    .profile-settings-container .settings-container .status span {
+        font-size: 25px;
+    }
+    .profile-settings-container .logout-container h4 {
+        width: 150px;
+        height: 54px;
+        font-size: 22px;
+    }
+}
+
+@media (max-height:667px) {
+    .sidebar-container .profile-settings-container {
+        padding: 220px 0px 90px 0px;
+    }
+}
+@media(min-height:668px) and (max-height:800px){
+    .sidebar-container .profile-settings-container {
+        padding: 220px 0px 190px 0px;
+    }
+}

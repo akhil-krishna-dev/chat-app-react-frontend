@@ -1,0 +1,96 @@
+.chatlist-container{
+    height: 75vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 25px 5px 40px 5px;
+}
+.chat-container{
+    display: flex;
+    margin-bottom: 2%;
+    padding: 10px 10px 10px 10px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: ease-in 0.1s;
+}
+
+
+
+.chat-container .user-image-container{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 15px;
+
+}
+.chat-container .user-image-container img{
+    width: 100%;
+    height: auto;
+}
+
+.chat-container .chat-details h4{
+    color:  rgb(116, 116, 233);
+    margin-bottom: 5%;
+}
+
+.chat-container .date-time{
+    margin-left: auto;
+    font-size: 14px;
+}
+
+.chatlist-container .loader {
+    border: 4px dotted rgb(116, 116, 233) ;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 30px auto;
+  }
+.chat-list-notification-icon {
+    background-color: red;
+    color: white;
+    width: -moz-fit-content;
+    width: fit-content;
+    border-radius: 19%;
+    padding: 3% 10%;
+    margin: auto;
+}
+.chat-container .date-time div {
+    margin-left: auto;
+    font-size: 14px;
+    top: 50%;
+}
+.chat-details .online-status{
+    color: black;
+}
+.chat-details .online-icon{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: rgb(16, 224, 16);
+}
+
+.chat-details .last-message-img{
+    width: auto;
+    height: 20px;
+}
+
+
+
+/* media query starts */
+@media (min-width:969px){
+    .chat-container:hover{
+        background-color: rgb(48, 48, 225);
+    }
+    .chat-container:hover > .chat-details h4 {
+        color: white;
+    }
+    .chat-container:hover > .chat-details p {
+        color: white;
+    }
+    .chat-container:hover > .date-time div {
+        color: white;
+    }
+}

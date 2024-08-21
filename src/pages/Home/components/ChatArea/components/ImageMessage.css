@@ -1,0 +1,16 @@
+.image-message-container{
+    width: 32%;
+    height: 150px;
+    border: solid 5px rgb(121, 121, 231);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.image-message-container img{
+    width: auto;
+    height: 100%;
+}

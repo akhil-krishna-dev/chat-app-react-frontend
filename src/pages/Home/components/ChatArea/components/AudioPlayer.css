@@ -1,0 +1,33 @@
+#waveform {
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgb(48, 48, 225);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
+    cursor: pointer;
+}
+
+#waveform .duration-container {
+    margin-left: 10px;
+    background-color: white;
+    border-radius: 5px;
+    color: rgb(25, 25, 212);
+    padding: 3px 6px;
+}
+
+#waveform svg{
+    color: white;
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+
+/* media queries starts */
+@media (max-width:768px){
+    #waveform .duration-container {
+        padding: 1px 5px;
+    }
+}

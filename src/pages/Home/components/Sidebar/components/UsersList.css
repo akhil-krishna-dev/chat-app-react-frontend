@@ -1,0 +1,68 @@
+.userslist-container {
+    height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+.userslist-container .back-to-chat-page{
+    background-color:  rgb(116, 116, 233);
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+.user-container{
+    display: flex;
+    margin-bottom: 2%;
+    padding: 10px 10px 10px 10px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: ease-in 0.1s;
+}
+.user-container .user-image-container{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 10px;
+
+}
+.user-container .user-image-container img{
+    width: 100%;
+    height: auto;
+}
+.user-container .user-details h4{
+    color:  rgb(116, 116, 233);
+}
+.user-container .date-time{
+    margin-left: auto;
+}
+.userslist-container .loader {
+    border: 3px dotted rgb(116, 116, 233) ;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 30px auto;
+}
+.no-user-message{
+    text-align: center;
+    font-size: 22px;
+    margin-top: 5%;
+}
+
+
+
+/* media queries starts  */
+
+@media (min-width:969px){
+    .user-container:hover{
+        background-color: rgb(48, 48, 225);
+    }
+    .user-container:hover > .user-details h4 {
+        color: white;
+    }
+}

@@ -1,0 +1,21 @@
+.search-user-container{
+    display: flex;
+    margin-bottom: 20px;
+}
+.search-user-container .input-container{
+    width: 100%;
+    position: relative;
+}
+.search-user-container .input-container input{
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: larger;
+    border-radius: 20px;
+    padding: 13px 20px 13px 45px;
+}
+.search-user-container .input-container svg{
+    position: absolute;
+    top: 11px;
+    left: 15px;
+}
