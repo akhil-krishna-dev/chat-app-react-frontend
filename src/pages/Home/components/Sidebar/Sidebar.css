@@ -1,6 +1,6 @@
 .sidebar-container{
     width: 33%;
-    background-color: rgb(242, 242, 246);
+    background-color: var(--primary-grey);
     padding: 15px;
     height: 100vh;
 }

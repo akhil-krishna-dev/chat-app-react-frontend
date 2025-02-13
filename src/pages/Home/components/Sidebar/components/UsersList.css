@@ -6,7 +6,7 @@
     padding-bottom: 20px;
 }
 .userslist-container .back-to-chat-page{
-    background-color:  rgb(116, 116, 233);
+    background-color:  var(--primary-blue);
     color: white;
     text-align: center;
     cursor: pointer;
@@ -36,13 +36,13 @@
     height: auto;
 }
 .user-container .user-details h4{
-    color:  rgb(116, 116, 233);
+    color:  var(--primary-blue);
 }
 .user-container .date-time{
     margin-left: auto;
 }
 .userslist-container .loader {
-    border: 3px dotted rgb(116, 116, 233) ;
+    border: 3px dotted var(--primary-blue) ;
     border-radius: 50%;
     width: 40px;
     height: 40px;

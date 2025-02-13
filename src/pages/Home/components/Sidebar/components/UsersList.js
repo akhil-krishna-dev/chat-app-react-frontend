@@ -6,7 +6,13 @@ import { BaseUrl, ChatListContext, UserContext } from "App";
 import {useNavigate } from "react-router-dom";
 
 
-const UsersList = ({setSearchingUser,usersListLoader,setUsersListLoader,searchUserInput}) => {
+const UsersList = ({
+    setSearchingUser,
+    usersListLoader,
+    setUsersListLoader,
+    searchUserInput,
+    setSearchUserInput}) => {
+
     const {authUser} = useContext(UserContext)
     const {setChatList} = useContext(ChatListContext)
     const [usersList, setUsersList] = useState([]);
@@ -41,11 +47,14 @@ const UsersList = ({setSearchingUser,usersListLoader,setUsersListLoader,searchUs
         if(isCreatingChat){
             return
         }
+        setSearchUserInput("")
+        
         setIsCreatingChat(true)
         axios
         .post(`${BaseUrl}home/chats/`,
             {participants:userIds}
         ).then((response) => {
+
             if(response.statusText === "Created"){
                 setChatList(prevChat => [...prevChat, response.data])
             }

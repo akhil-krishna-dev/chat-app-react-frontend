@@ -9,16 +9,17 @@
     overflow: hidden;
     border-radius: 50%;
     margin-right: 20px;
-    border: solid 3px rgb(116, 116, 233);
+    border: solid 3px var(--primary-blue);
 }
 .owner-profile-image-container img{
     width: 100%;
-    min-width: 85px;
+    min-width: 100%;
+    min-height: 100%;
     height: auto;
 }
 
 .owner-details-container h2{
-    color:  rgb(116, 116, 233);
+    color:  var(--primary-blue);
 }
 
 .owner-profile-container .owner-profile-edit-btn{
@@ -36,7 +37,7 @@
 
 @media (min-width:1028px){
     .owner-profile-container .owner-profile-edit-btn:hover{
-        background-color: rgb(116, 116, 233);
+        background-color: var(--primary-blue);
         color: white;
     }
     .owner-profile-container .owner-profile-edit-btn:hover > 

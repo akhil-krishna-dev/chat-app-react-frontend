@@ -9,7 +9,7 @@
 .search-user-container .input-container input{
     width: 100%;
     outline: none;
-    border: none;
+    border: solid var(--primary-blue);
     font-size: larger;
     border-radius: 20px;
     padding: 13px 20px 13px 45px;

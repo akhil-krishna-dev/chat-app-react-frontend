@@ -13,10 +13,11 @@ if(window.location.pathname === "/"){
    window.location.pathname = "/home"
 }
 
-export const UserContext = React.createContext()
-export const ChatListContext = React.createContext()
 export const BaseUrl = "http://127.0.0.1:8000/api/";
 export const WebSocketUrl = "ws://127.0.0.1:8000/ws/";
+
+export const UserContext = React.createContext()
+export const ChatListContext = React.createContext()
 
 
 const App =() => {

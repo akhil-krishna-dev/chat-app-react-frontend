@@ -42,7 +42,6 @@ const Sidebar = () => {
                         for (let index in data.data){
                             updateChatList(data.data[index])
                         }
-                        break
                     }else{
                         updateChatList(data.data)
                     }
@@ -111,7 +110,12 @@ const Sidebar = () => {
         if (searchingUser){
             return  <>
                         <div className="back-to-chat-page"> <IoArrowBackCircle onClick={() => closingUserListComponent() } color="#7474e9" size={50}/></div>
-                        <UsersList setSearchingUser={setSearchingUser} setUsersListLoader={setUsersListLoader} usersListLoader={usersListLoader} searchUserInput={debouncer} />
+                        <UsersList 
+                        setSearchingUser={setSearchingUser} 
+                        setUsersListLoader={setUsersListLoader} 
+                        usersListLoader={usersListLoader} 
+                        searchUserInput={debouncer}
+                        setSearchUserInput={setSearchUserInput} />
                     </> 
         }
 		if (chatId){
