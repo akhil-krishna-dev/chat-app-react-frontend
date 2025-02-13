@@ -128,6 +128,12 @@
 
 
 /* media queries starts */
+@media (min-width:1376px){
+    .message-input-container{
+        bottom: 25px;
+    }
+}
+
 @media (max-width:968px){
     .message-input-container{
         height: 10%;
