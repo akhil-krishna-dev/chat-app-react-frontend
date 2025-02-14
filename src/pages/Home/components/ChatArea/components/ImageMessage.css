@@ -1,7 +1,7 @@
 .image-message-container{
     width: 32%;
     height: 150px;
-    border: solid 5px rgb(121, 121, 231);
+    border: solid 5px black;
     border-radius: 10px;
     overflow: hidden;
     display: flex;
