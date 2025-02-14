@@ -22,4 +22,5 @@ code {
 :root{
    --primary-blue:rgb(116, 116, 233);
    --primary-grey:rgb(242, 242, 246);
+   --input-outline-grey:rgb(227, 224, 224)
 }

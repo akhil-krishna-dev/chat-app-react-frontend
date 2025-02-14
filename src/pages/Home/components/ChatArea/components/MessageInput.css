@@ -12,14 +12,15 @@
     display: flex;
     align-items: center;
     border-radius: 25px;
-    border: solid 1px rgb(227, 224, 224);
+    border: solid 1px var(--primary-blue);
     width: 75%;
     height: 100%;
-    background-color: rgb(242, 242, 246);
+    background-color: var(--primary-grey);
     margin-right: 2%;
 }
 .input-box-container svg{
     margin-left: 4%;
+    color: var(--primary-blue);
 }
 
 .input-box-container .mike-icon-container{
@@ -49,6 +50,7 @@
     font-size: 20px;
     outline: none;
     border: none;
+    color: rgb(44, 44, 232);
     background-color: rgb(242, 242, 246);
 
 }
@@ -72,6 +74,10 @@
 .icon-box:hover{
     background-color: #f1f1f1;
 
+}
+
+.files-send-container .icon-box svg{
+    color: var(--primary-blue);
 }
 
 .send-button-container{
@@ -199,6 +205,6 @@
 
 @media (min-height:601px ) and (max-height:800px){
     .message-input-container{
-        height: 11.7%;
+        height: 12.7%;
     }
 }
