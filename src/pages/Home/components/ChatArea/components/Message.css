@@ -1,0 +1,126 @@
+/* .messages-container .message-box {
+	height: auto;
+} */
+.messages-container .chat-connected-message-contaner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 60px;
+}
+.messages-container .chat-connected-message-contaner span {
+	padding: 15px 45px;
+	border-radius: 45px;
+	background-color: var(--primary-grey);
+	line-height: 25px;
+}
+
+.each-messages-container {
+	display: flex;
+	justify-content: flex-start;
+	padding: 15px 15px 0px 15px;
+	margin-left: 40px;
+	border-radius: 15px;
+}
+.each-messages-container.current-user {
+	justify-content: flex-end;
+	margin-right: 4%;
+}
+.each-messages-container p {
+	background-color: rgb(48, 48, 225);
+	color: white;
+	display: flex;
+	padding: 10px 20px;
+	border-radius: 20px;
+	border-bottom-left-radius: 0;
+	max-width: 75%;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+.each-messages-container.current-user p {
+	justify-content: flex-end;
+	background-color: rgb(234, 230, 230);
+	color: black;
+	padding: 10px 20px;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 0;
+	max-width: 75%;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.each-messages-container .file-container {
+	height: 100%;
+	background-color: rgb(240 236 236);
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	box-shadow: 0 0 3px 1px grey;
+	cursor: pointer;
+}
+
+.message-box .user-image-container {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	overflow: hidden;
+	position: relative;
+	top: -4px;
+	left: 22px;
+}
+.user-image-container.current-user {
+	margin-left: auto;
+	margin-right: 4%;
+}
+.user-image-container img {
+	width: 100%;
+	height: auto;
+}
+
+.message-box .message-status {
+	position: relative;
+	display: flex;
+	align-items: center;
+	top: -25px;
+	left: 8%;
+}
+.message-box .message-status.current-user {
+	position: relative;
+	flex-direction: row-reverse;
+	left: -7%;
+}
+.message-box .message-status span {
+	margin-left: 1%;
+}
+
+.audio-message-container {
+	background-color: rgb(25, 25, 212);
+	border-radius: 10px;
+}
+.audio-message-container::-webkit-media-controls-panel {
+	background-color: rgb(25, 25, 212);
+}
+.audio-message-container::-webkit-media-controls-volume-control-container {
+	background-color: white;
+	border-radius: 50%;
+}
+.audio-message-container::-webkit-media-controls-play-button {
+	background-color: white;
+	color: white;
+	border-radius: 50%;
+}
+.audio-message-container::-webkit-media-controls-mute-button {
+	background-color: white;
+	border-radius: 50%;
+}
+
+/* media queries starts */
+@media (max-width: 600px) {
+	.message-box .message-status {
+		left: 17%;
+	}
+	.message-box .message-status.current-user {
+		left: -10%;
+	}
+}

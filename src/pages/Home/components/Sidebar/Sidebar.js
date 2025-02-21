@@ -1,4 +1,4 @@
-import React ,{ useContext, useEffect, useState} from "react";
+import React, { useEffect } from "react";
 import "./Sidebar.css";
 import { IoArrowBackCircle } from "react-icons/io5";
 import OwnerProfile from "./components/OwnerProfile";
@@ -7,140 +7,146 @@ import UsersList from "./components/UsersList";
 import ChatList from "./components/ChatList";
 import ProfileSettings from "./components/ProfileSettings";
 import { useNavigate, useParams } from "react-router-dom";
-import useDebouncer from "hooks/useDebouncer";
 import { WebSocketUrl } from "App";
-import { jwtToken } from "utils/checkAuthToken";
-import { ChatListContext } from "App";
+import { checkJWT } from "utils/tokenUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { closeSearchingUsers } from "store/userSlice";
+import {
+	updateMessagesInChat,
+	updateParticipantsOnlineStatus,
+} from "store/chatSlice";
 
 const Sidebar = () => {
-    const {
-        updateChatList, 
-        setNotificationSocket,
-        updateParticipantsOnlineStatus, 
-        updateParticipantsOfflineStatus,
-        setChatList} = useContext(ChatListContext)
+	const { searchKeyWord } = useSelector((state) => state.users.searchUsers);
 
-    const {option,chatId} = useParams();
-    const [searchingUser, setSearchingUser] = useState(false)
-    const [searchUserInput, setSearchUserInput] = useState("")
-    const debouncer =  useDebouncer(searchUserInput,800)
-    const [usersListLoader, setUsersListLoader] = useState(true) 
-    const navigate = useNavigate()
-    
+	const dispatch = useDispatch();
 
-    useEffect(() => {
-         
-        const newSocket = new WebSocket(`${WebSocketUrl}user/notification/?token=${jwtToken}`)
+	const { option, chatId } = useParams();
 
-        setNotificationSocket(newSocket)
+	const navigate = useNavigate();
 
-        newSocket.onmessage = (event) => {
-            const data = JSON.parse(event.data)
-            switch(data.type){
-                case "message_notification":
-                    if (Array.isArray(data.data)){
-                        for (let index in data.data){
-                            updateChatList(data.data[index])
-                        }
-                    }else{
-                        updateChatList(data.data)
-                    }
-                    break
+	useEffect(() => {
+		const newSocket = new WebSocket(
+			`${WebSocketUrl}user/notification/?token=${checkJWT()}`
+		);
 
-                case "online":
-                    setTimeout(() => {
-                        updateParticipantsOnlineStatus(data.data.user_id)
-                        newSocket.send(JSON.stringify({
-                            type:"online",
-                            data:{
-                                user_id:data.data.user_id
-                            }
-                        }))                      
-                    }, 3000);
-                    break
+		newSocket.onmessage = (event) => {
+			const data = JSON.parse(event.data);
 
-                case "replay_from_online_user":
-                    updateParticipantsOnlineStatus(data.data.user_id)
-                    break
+			switch (data.type) {
+				case "message_notification":
+					if (Array.isArray(data.data)) {
+						for (let index in data.data) {
+							dispatch(updateMessagesInChat(data.data[index]));
+						}
+					} else {
+						dispatch(updateMessagesInChat(data.data));
+					}
+					break;
 
-                case "new_chat":
-                    setChatList(prevChat => [...prevChat, data.data])
-                    setTimeout(() => {
-                        newSocket.send(JSON.stringify({
-                            type:"new_chat_user",
-                            data:{
-                                user_id:data.user_id
-                            }
-                        }))
-                        
-                    }, 3000);
-                    break
+				case "online":
+					setTimeout(() => {
+						dispatch(
+							updateParticipantsOnlineStatus(data.data.user_id)
+						);
+						newSocket.send(
+							JSON.stringify({
+								type: "online",
+								data: {
+									user_id: data.data.user_id,
+								},
+							})
+						);
+					}, 3000);
+					break;
 
-                case "offline":
-                    const {user_id, last_seen} = data.data
-                    updateParticipantsOfflineStatus(user_id, last_seen)
-                    break
-                    
-            }
-        }
+				case "replay_from_online_user":
+					dispatch(updateParticipantsOnlineStatus(data.data.user_id));
+					break;
 
-        newSocket.onclose = () => {
-        }
+				case "new_chat":
+					setTimeout(() => {
+						newSocket.send(
+							JSON.stringify({
+								type: "new_chat_user",
+								data: {
+									user_id: data.user_id,
+								},
+							})
+						);
+					}, 3000);
+					break;
 
-        return () => newSocket.readyState === WebSocket.OPEN && newSocket.close()
-      
-    },[])
+				case "offline":
+					const { user_id, last_seen } = data.data;
+					dispatch(
+						updateParticipantsOnlineStatus(user_id, last_seen)
+					);
+					break;
+			}
+		};
 
-    const handleSearchAction = (search_input) => {
-        setUsersListLoader(true)
-        setSearchUserInput(search_input);
-        setSearchingUser(true);
-    }
+		newSocket.onclose = () => {};
 
-    const closingUserListComponent = () => {
-        setSearchingUser(false)
-        setSearchUserInput("")
-    }
+		return () =>
+			newSocket.readyState === WebSocket.OPEN && newSocket.close();
+	}, []);
 
-    const closingUserProfileComponent = () => {
-        navigate("/home")
-    }
+	const closingUserListComponent = () => {
+		dispatch(closeSearchingUsers());
+	};
 
-    const optionRender = () => {
-        if (searchingUser){
-            return  <>
-                        <div className="back-to-chat-page"> <IoArrowBackCircle onClick={() => closingUserListComponent() } color="#7474e9" size={50}/></div>
-                        <UsersList 
-                        setSearchingUser={setSearchingUser} 
-                        setUsersListLoader={setUsersListLoader} 
-                        usersListLoader={usersListLoader} 
-                        searchUserInput={debouncer}
-                        setSearchUserInput={setSearchUserInput} />
-                    </> 
-        }
-		if (chatId){
-			return <ChatList  />
+	const closingUserProfileComponent = () => {
+		navigate("/home");
+	};
+
+	const optionRender = () => {
+		if (searchKeyWord) {
+			return (
+				<>
+					<div className="back-to-chat-page">
+						{" "}
+						<IoArrowBackCircle
+							onClick={() => closingUserListComponent()}
+							color="#7474e9"
+							size={50}
+						/>
+					</div>
+					<UsersList />
+				</>
+			);
 		}
-		switch (option){
+		if (chatId) {
+			return <ChatList />;
+		}
+		switch (option) {
 			case "home":
-			    return <ChatList  />
+				return <ChatList />;
 			case "profile":
-                return  <>
-                            <div className="back-to-chat-page"><IoArrowBackCircle onClick={() => closingUserProfileComponent() } color="#7474e9" size={50}/></div>
-                            <ProfileSettings />
-                        </>
-            default:
-                return null
+				return (
+					<>
+						<div className="back-to-chat-page">
+							<IoArrowBackCircle
+								onClick={() => closingUserProfileComponent()}
+								color="#7474e9"
+								size={50}
+							/>
+						</div>
+						<ProfileSettings />
+					</>
+				);
+			default:
+				return null;
 		}
 	};
-	
-    return (
-        <div className="sidebar-container">
-            <OwnerProfile />
-            <SearchUser handleSearchAction={handleSearchAction} searchInput={searchUserInput} />
+
+	return (
+		<div className="sidebar-container">
+			<OwnerProfile />
+			<SearchUser />
 			{optionRender()}
-        </div>
-    );
+		</div>
+	);
 };
 
 export default Sidebar;

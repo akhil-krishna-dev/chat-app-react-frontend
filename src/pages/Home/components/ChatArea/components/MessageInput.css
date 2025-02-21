@@ -1,210 +1,195 @@
-.message-input-container{
-    display: flex;
-    align-items: center;
-    height: 13%;
-    padding: 15px 15px 25px 35px;
-    position: fixed;
-    width: -webkit-fill-available;
-    bottom: 0;
-    background-color: white;
+.message-input-container {
+	display: flex;
+	align-items: center;
+	height: 13%;
+	padding: 23px 15px 28px 35px;
+	position: fixed;
+	width: -webkit-fill-available;
+	border-top: solid 1px rgb(221, 221, 221);
+	bottom: 0;
+	background-color: white;
 }
-.input-box-container{
-    display: flex;
-    align-items: center;
-    border-radius: 25px;
-    border: solid 1px var(--primary-blue);
-    width: 75%;
-    height: 100%;
-    background-color: var(--primary-grey);
-    margin-right: 2%;
+.input-box-container {
+	display: flex;
+	align-items: center;
+	border-radius: 25px;
+	border: solid 1px var(--primary-blue);
+	width: 75%;
+	height: 100%;
+	background-color: var(--primary-grey);
+	margin-right: 2%;
 }
-.input-box-container svg{
-    margin-left: 4%;
-    color: var(--primary-blue);
-}
-
-.input-box-container .mike-icon-container{
-    height: 100%;
-    width: auto;
-    margin-left: 30px;
-    display: flex;
-    align-items: center;
+.input-box-container svg {
+	margin-left: 4%;
+	color: var(--primary-blue);
 }
 
-.input-box-container .mike-icon-container img{
-    height: 70%;
-    width: auto;
+.input-box-container .mike-icon-container {
+	height: 100%;
+	width: auto;
+	margin-left: 30px;
+	display: flex;
+	align-items: center;
 }
 
-.input-box-container .input-container{
-    overflow: hidden;
-    height: 100%;
-    width: 90%;
-    margin-left: 3%;
-    margin-right: 4%;
-    background-color: rgb(242, 242, 246);
-}
-.input-box-container .input-container input{
-    height: 100%;
-    width: 100%;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    color: rgb(44, 44, 232);
-    background-color: rgb(242, 242, 246);
-
+.input-box-container .mike-icon-container img {
+	height: 70%;
+	width: auto;
 }
 
-.files-send-container{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-right: 3%;
-    width: 16%;
+.input-box-container .input-container {
+	overflow: hidden;
+	height: 100%;
+	width: 90%;
+	margin-left: 3%;
+	margin-right: 4%;
+	background-color: rgb(242, 242, 246);
 }
-.icon-box{
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.icon-box:hover{
-    background-color: #f1f1f1;
-
+.input-box-container .input-container input {
+	height: 100%;
+	width: 100%;
+	font-size: 20px;
+	outline: none;
+	border: none;
+	color: rgb(44, 44, 232);
+	background-color: rgb(242, 242, 246);
 }
 
-.files-send-container .icon-box svg{
-    color: var(--primary-blue);
+.files-send-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	margin-right: 3%;
+	width: 16%;
+}
+.icon-box {
+	border-radius: 50%;
+	width: 55px;
+	height: 55px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.send-button-container{
-    margin-right: 4%;
-    height: 45px;
-    width: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(25, 25, 212);
+.icon-box:hover {
+	background-color: #f1f1f1;
 }
 
-.message-input-container .select-files-images-container{
-    position: absolute;
-    bottom: 92%;
-    right: 62%;
-    width: 26%;
+.files-send-container .icon-box svg {
+	color: var(--primary-blue);
 }
 
-.select-files-images-container .file-select-container{
-    display: flex;
-    align-items: center;
-    margin-bottom: 8%;
+.send-button-container {
+	margin-right: 4%;
+	height: 45px;
+	width: 50px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(25, 25, 212);
+}
+
+.message-input-container .select-files-images-container {
+	position: absolute;
+	bottom: 92%;
+	right: 62%;
+	width: 26%;
+}
+
+.select-files-images-container .file-select-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 8%;
 }
 
 .select-files-images-container .file-select-container .select-file-type {
-    margin-left: 10%;
-    background-color: #5e5b5b;
-    color: white;
-    padding: 8px 22px;
-    border-radius: 22px;
-    box-shadow: 0px 6px 6px grey;
+	margin-left: 10%;
+	background-color: #5e5b5b;
+	color: white;
+	padding: 8px 22px;
+	border-radius: 22px;
+	box-shadow: 0px 6px 6px grey;
 }
 
-.message-input-container .select-files-images-container .select-icon-box{
-    padding: 5px;
-    background-color: #7777dc;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 6px 6px grey;
-    cursor: pointer;
+.message-input-container .select-files-images-container .select-icon-box {
+	padding: 5px;
+	background-color: #7777dc;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0px 6px 6px grey;
+	cursor: pointer;
 }
 
-.select-files-images-container .select-icon-box .select-file-type{
-    position: absolute;
+.select-files-images-container .select-icon-box .select-file-type {
+	position: absolute;
 }
-
-
-
 
 /* media queries starts */
-@media (min-width:1376px){
-    .message-input-container{
-        bottom: 25px;
-    }
+/* @media (min-width: 1376px) {
+	.message-input-container {
+		bottom: 25px;
+	}
+} */
+
+@media (max-width: 968px) {
+	.message-input-container {
+		padding: 20px 5px;
+	}
+	.input-box-container {
+		height: 80%;
+	}
+	.input-box-container .input-container input {
+		font-size: 22px;
+	}
+	.select-files-images-container .select-icon-box .select-file-type {
+		display: none;
+	}
+	.select-files-images-container .file-select-container .select-file-type {
+		display: none;
+	}
 }
 
-@media (max-width:968px){
-    .message-input-container{
-        height: 10%;
-    }
-    .input-box-container {
-        height: 80%;
-    }
-    .input-box-container .input-container input {
-        font-size: 26px;        
-    }
-    .select-files-images-container .select-icon-box .select-file-type{
-        display: none;
-    } 
-    .select-files-images-container .file-select-container .select-file-type {
-        display: none;
-    } 
+@media (max-width: 600px) {
+	.message-input-container {
+		padding: 2px 8px;
+	}
+	.files-send-container {
+		width: 19%;
+	}
+	.input-box-container {
+		width: 75%;
+		height: 47%;
+	}
+	.input-box-container .input-container {
+		margin-left: 4%;
+	}
+	.input-box-container .input-container input {
+		font-size: 20px;
+	}
+	.icon-box {
+		width: 55px;
+		height: 55px;
+	}
+	.send-button-container {
+		margin-right: 1%;
+		height: 40px;
+	}
+
+	.select-files-images-container .file-select-container .select-file-type {
+		display: none;
+	}
+	.chat-area-container .messages-container .show-new-message-btn-container {
+		left: 44%;
+	}
 }
 
-@media (max-width:500px){
-    .message-input-container {
-        padding: 2px 8px;
-    }
-    .files-send-container {
-        width: 19%;
-    }
-    .input-box-container {
-        width: 75%;
-        height: 57%;
-    }
-    .input-box-container .input-container {
-        margin-left: 4%;
-    }
-    .input-box-container .input-container input {
-        font-size: 20px;
-    }
-    .icon-box{
-        width: 55px;
-        height: 55px;
-    }
-    .send-button-container {
-        margin-right: 1%;
-        height: 40px;
-    }
-
-    .select-files-images-container .file-select-container .select-file-type {
-        display: none;
-    }
-    .chat-area-container .messages-container .show-new-message-btn-container{
-        left: 44%;
-    }
-}
-
-
-@media (max-height:600px){
-    .input-box-container{
-        height: 100%;
-    }
-    .send-button-container {
-        height: 40px;
-        width: 45px;
-    }
-}
-
-@media (min-height:601px ) and (max-height:800px){
-    .message-input-container{
-        height: 12.7%;
-    }
-}
+/* @media (min-height: 601px) and (max-height: 800px) {
+	.message-input-container {
+		height: 11.7%;
+	}
+} */

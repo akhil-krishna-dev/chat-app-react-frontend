@@ -1,25 +1,24 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import ChatArea from './components/ChatArea/ChatArea';
-import Sidebar from './components/Sidebar/Sidebar';
-import ChatAreaBackgroud from './components/ChatArea/components/ChatAreaBackground';
-import withAuthentication from 'utils/withAuthentication';
+import React from "react";
+import { useParams } from "react-router-dom";
+import ChatArea from "./components/ChatArea/ChatArea";
+import Sidebar from "./components/Sidebar/Sidebar";
+import ChatAreaBackgroud from "components/BackgroundComponents/ChatAreaBackground";
 
 const Home = () => {
-    
-    const {option,chatId} = useParams();
+	const { option, chatId } = useParams();
 
-    const renderComponent = () => {
-        if(chatId) return <ChatArea/>
-        if(option === "home") return <ChatAreaBackgroud/>
-    }
+	const renderComponent = () => {
+		if (chatId) return <ChatArea />;
+		if (option === "home" || option === "profile")
+			return <ChatAreaBackgroud />;
+	};
 
-    return (
-        <>
-        <Sidebar/>  
-        {renderComponent()}  
-        </>
-    );
+	return (
+		<>
+			<Sidebar />
+			{renderComponent()}
+		</>
+	);
 };
 
-export default withAuthentication(Home);
+export default Home;
