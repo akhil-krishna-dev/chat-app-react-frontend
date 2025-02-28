@@ -5,8 +5,7 @@ import Message from "./components/Message";
 import MessageInput from "./components/MessageInput";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { BaseUrl, WebSocketUrl } from "App";
-import { checkJWT } from "utils/tokenUtils";
+import { BaseUrl } from "App";
 import { MdCancel } from "react-icons/md";
 import { CustomFileIcon, Loader } from "components";
 import { FaAnglesDown } from "react-icons/fa6";
@@ -19,20 +18,21 @@ import {
 	updateCurrentChat,
 	updateMessagesInChat,
 	clearSeenMessageCount,
-	updateSeenMessage,
 	updateCurrentChatMessagesWithNextPage,
 } from "store/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { makeMessgesAsSeen } from "utils/messageUtils";
+import { getDayMonthYear } from "utils/dateUtils";
 
-const ChatArea = () => {
-	const { messages } = useSelector((state) => state.chatList.currentChat);
+const ChatArea = ({ currentWebSocket }) => {
+	const { otherUser, messages } = useSelector(
+		(state) => state.chatList.currentChat
+	);
 	const { chatList } = useSelector((state) => state.chatList);
 	const { authUser } = useSelector((state) => state.users);
 	const { isSmallDevice } = useSelector(
 		(state) => state.chatList.smallDevice
 	);
-
 	const dispatch = useDispatch();
 
 	const [firstLoad, setFirstLoad] = useState(true);
@@ -45,8 +45,6 @@ const ChatArea = () => {
 	const newMessageRef = useRef(null);
 
 	const { chatId } = useParams();
-	const [socket, setSocket] = useState(null);
-	const [isWebSocketOpen, setIsWebSocketOpen] = useState(false);
 	const [message, setMessage] = useState("");
 
 	const [selectedFile, setSelectedFile] = useState([]);
@@ -104,50 +102,7 @@ const ChatArea = () => {
 		return () => {
 			clearTimeout(handleSeenMessagesTime);
 		};
-	}, [chatList, messages, authUser, chatId]);
-
-	useEffect(() => {
-		const newSocket = new WebSocket(
-			`${WebSocketUrl}chat/${chatId}/?token=${checkJWT()}`
-		);
-
-		if (authUser) {
-			newSocket.onopen = () => {
-				setIsWebSocketOpen(true);
-			};
-		}
-
-		newSocket.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-
-			switch (data.type) {
-				case "seen_message_ids":
-					const payload = {
-						chatId: data.data.chat_id,
-						msgIds: data.data.message_ids,
-					};
-					dispatch(updateSeenMessage(payload));
-					break;
-			}
-		};
-
-		newSocket.onclose = () => {
-			setIsWebSocketOpen(false);
-		};
-
-		newSocket.onerror = (error) => {
-			setIsWebSocketOpen(false);
-		};
-
-		setSocket(newSocket);
-
-		return () => {
-			if (newSocket.readyState === WebSocket.OPEN) {
-				newSocket.close();
-				setIsWebSocketOpen(false);
-			}
-		};
-	}, [chatId, authUser]);
+	}, [chatList, messages, authUser, chatId, otherUser]);
 
 	useEffect(() => {
 		const scrollContainer = chatStartRef.current;
@@ -181,11 +136,13 @@ const ChatArea = () => {
 
 	// <<<<----->>>>
 	const handleMakeMessagesAsSeen = () => {
-		if (messages?.results?.length > 0 && isWebSocketOpen) {
+		if (!otherUser) return;
+		if (messages?.results?.length > 0 && currentWebSocket) {
 			const data = {
 				chatId: parseInt(chatId),
 				messagesResults: messages?.results,
-				authUser,
+				targetUserId: otherUser?.id,
+				authUserId: authUser?.id,
 			};
 			makeMessgesAsSeen(data);
 		}
@@ -422,7 +379,7 @@ const ChatArea = () => {
 
 		if (!message) return;
 
-		if (isWebSocketOpen) {
+		if (currentWebSocket) {
 			setChatEndRefShow(true);
 
 			setTimeout(() => {
@@ -433,8 +390,8 @@ const ChatArea = () => {
 				}
 			}, 1000);
 
-			const messageData = { message };
-			socket.send(JSON.stringify(messageData));
+			const messageData = { type: "message", data: { chatId, message } };
+			currentWebSocket?.send(JSON.stringify(messageData));
 			setMessage("");
 		} else {
 			axios
@@ -546,6 +503,41 @@ const ChatArea = () => {
 		}
 	};
 
+	// rendering messages
+	const renderMessages = () => {
+		let createdAt = { day: "", month: "", year: "" };
+		return messages?.results?.map((message) => {
+			const { day, month, year } = getDayMonthYear(message.timestamp);
+			if (createdAt.day === "") {
+				createdAt = { day, month, year };
+				return (
+					<Message
+						key={message.id}
+						message={message}
+						dateTitle={true}
+					/>
+				);
+			}
+			if (
+				day === createdAt.day &&
+				month === createdAt.month &&
+				year === createdAt.year
+			) {
+				return (
+					<Message
+						key={message.id}
+						message={message}
+						dateTitle={false}
+					/>
+				);
+			}
+			createdAt = { day, month, year };
+			return (
+				<Message key={message.id} message={message} dateTitle={true} />
+			);
+		});
+	};
+
 	return (
 		<div className={`chat-area-container ${isSmallDevice && "active"}`}>
 			<UserProfile />
@@ -558,9 +550,7 @@ const ChatArea = () => {
 				</div>
 
 				{messages?.results?.length > 0 ? (
-					messages?.results?.map((message) => (
-						<Message key={message.id} message={message} />
-					))
+					renderMessages()
 				) : firstLoad ? (
 					<div className="first-load-container">
 						{" "}

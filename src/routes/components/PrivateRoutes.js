@@ -1,9 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import { checkJWT } from "utils/tokenUtils";
 
 const PrivateRoutes = () => {
-	if (checkJWT()) {
+	const { authUser } = useSelector((state) => state.users);
+
+	if (authUser.id) {
 		return <Outlet />;
 	}
 	return <Navigate to={"/user/login"} />;

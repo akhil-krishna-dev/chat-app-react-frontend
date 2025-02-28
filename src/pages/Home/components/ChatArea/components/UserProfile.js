@@ -5,6 +5,7 @@ import { Loader } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import convertTimestampToDate from "utils/dateUtils";
 import { activateOrDeactivateChatAreaForSmallDevice } from "store/chatSlice";
+import CallButtons from "./CallButtons";
 
 const UserProfile = () => {
 	const { otherUser } = useSelector((state) => state.chatList.currentChat);
@@ -58,6 +59,9 @@ const UserProfile = () => {
 				</div>
 				{renderOnlineStatus()}
 			</div>
+
+			{/* calling and video calling button components */}
+			<CallButtons />
 
 			{/* for small screen devices */}
 			{renderChatBackBtn()}

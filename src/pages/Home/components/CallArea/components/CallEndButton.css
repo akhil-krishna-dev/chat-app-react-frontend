@@ -1,0 +1,12 @@
+.call-accept-and-end-button-container .call-end-btn-container {
+	background-color: rgb(179 9 9);
+	color: white;
+	border-radius: 15px;
+	width: 30%;
+	cursor: pointer;
+	text-align: center;
+}
+.call-accept-and-end-button-container .call-end-btn-container:hover {
+	background-color: rgb(190, 6, 6);
+	transition: 0.4s ease-in-out;
+}

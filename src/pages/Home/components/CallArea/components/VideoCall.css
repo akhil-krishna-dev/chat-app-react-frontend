@@ -1,0 +1,25 @@
+.video-call-screen-container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.video-call-screen-container .video-call-screen {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	height: 100%;
+}
+.video-call-screen-container .video-call-screen.ringing {
+	display: none;
+}
+.video-call-screen-container .video-call-screen .remote-video {
+	height: 92vh;
+}
+.video-call-screen-container .video-call-screen .local-video {
+	width: 15%;
+	position: absolute;
+	bottom: 4%;
+	right: 6%;
+}

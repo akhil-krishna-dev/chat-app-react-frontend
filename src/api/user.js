@@ -2,6 +2,7 @@ import { BaseUrl } from "App";
 import axios from "axios";
 import { fetchChats } from "./chat";
 import {
+	updateAuthChecked,
 	updateAuthUser,
 	updateIsSearchingUsers,
 	updateUsersSearchedWithKeyWord,
@@ -9,7 +10,7 @@ import {
 import { checkJWT } from "utils/tokenUtils";
 
 export const fetchUser = (dispatch) => {
-	if (!checkJWT()) return;
+	if (!checkJWT()) return dispatch(updateAuthChecked());
 	axios
 		.get(`${BaseUrl}accounts/request-user-profile/`)
 		.then((response) => {
@@ -17,7 +18,10 @@ export const fetchUser = (dispatch) => {
 			fetchChats(dispatch);
 		})
 		.catch((error) => {
-			console.log(error);
+			// console.log(error);
+		})
+		.finally(() => {
+			dispatch(updateAuthChecked());
 		});
 };
 

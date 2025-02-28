@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import convertTimestampToDate from "utils/dateUtils";
 
 const Messages = memo(
-	({ message }) => {
+	({ message, dateTitle }) => {
 		const { otherUser } = useSelector(
 			(state) => state.chatList.currentChat
 		);
@@ -84,8 +84,22 @@ const Messages = memo(
 			return `message-status ${isAuthUserMessage ? "current-user " : ""}`;
 		};
 
-		console.log("rendering");
+		const renderMessageTimeStamp = () => {
+			const titleTimestamp = formattedTime;
+			if (titleTimestamp) {
+				return `${titleTimestamp.split("at")[1]}`;
+			}
+		};
 
+		const renderDateTitleBoxTimestamp = () => {
+			const titleTimestamp = formattedTime;
+			if (titleTimestamp) {
+				return titleTimestamp.split("at")[0];
+			}
+		};
+
+		//
+		//
 		// rendering message component  ---->>>>
 		const renderMessage = () => {
 			// rendering first message "you are now connected with"
@@ -101,48 +115,59 @@ const Messages = memo(
 			}
 			// rendering all messages
 			return (
-				<div className="message-box">
-					<div className={renderMessageBoxClassName()}>
-						{image && <ImageMessage image={image} />}
+				<>
+					{dateTitle && (
+						<div className="message-date-title-box">
+							<span>{renderDateTitleBoxTimestamp()}</span>
+						</div>
+					)}
+					<div className="message-box">
+						<div className={renderMessageBoxClassName()}>
+							{image && <ImageMessage image={image} />}
 
-						{file_details && (
-							<div className="file-container">
-								<CustomFileIcon
-									fileType={fileExtension}
-									color="red"
-									size={25}
-								/>
-								{file_details?.file_name}
-								<span
-									style={{
-										marginLeft: "15px",
-										marginRight: "15px",
-									}}
-								>
-									{formattedFileSize}
-								</span>
-								<a href={file} download={file} target="_blank">
-									<IoMdDownload color="grey" size={25} />
-								</a>
-							</div>
-						)}
+							{file_details && (
+								<div className="file-container">
+									<CustomFileIcon
+										fileType={fileExtension}
+										color="red"
+										size={25}
+									/>
+									{file_details?.file_name}
+									<span
+										style={{
+											marginLeft: "15px",
+											marginRight: "15px",
+										}}
+									>
+										{formattedFileSize}
+									</span>
+									<a
+										href={file}
+										download={file}
+										target="_blank"
+									>
+										<IoMdDownload color="grey" size={25} />
+									</a>
+								</div>
+							)}
 
-						{audio && <AudioPlayer audioUrl={audio} />}
-						{content && <p>{content}</p>}
+							{audio && <AudioPlayer audioUrl={audio} />}
+							{content && <p>{content}</p>}
+						</div>
+						<div className={renderImageContainerClassName()}>
+							<img src={renderImage()} alt="User" />
+						</div>
+						<div className={renderUserStatusContainerClassName()}>
+							{isAuthUserMessage && (
+								<span>{renderMessageStatus}</span>
+							)}
+							<span>{renderMessageTimeStamp()}</span>
+							<span>
+								<SlOptionsVertical color="grey" />
+							</span>
+						</div>
 					</div>
-					<div className={renderImageContainerClassName()}>
-						<img src={renderImage()} alt="User" />
-					</div>
-					<div className={renderUserStatusContainerClassName()}>
-						{isAuthUserMessage && (
-							<span>{renderMessageStatus}</span>
-						)}
-						<span>{formattedTime}</span>
-						<span>
-							<SlOptionsVertical color="grey" />
-						</span>
-					</div>
-				</div>
+				</>
 			);
 		};
 

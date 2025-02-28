@@ -1,7 +1,13 @@
 import { handleSeenMessageApi } from "api/chat";
-const makeMessgesAsSeen = ({ chatId, authUser, messagesResults }) => {
+const makeMessgesAsSeen = ({
+	chatId,
+	authUserId,
+	targetUserId,
+	messagesResults,
+}) => {
 	const seenChatMsg = {
 		chatId: parseInt(chatId),
+		targetUserId,
 		seenMsgIds: [],
 	};
 
@@ -14,7 +20,7 @@ const makeMessgesAsSeen = ({ chatId, authUser, messagesResults }) => {
 			break;
 		}
 
-		if (sender?.id !== authUser?.id) {
+		if (sender?.id !== authUserId) {
 			seenChatMsg.seenMsgIds.push(id);
 		}
 	}

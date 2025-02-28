@@ -7,10 +7,10 @@ const convertTimestampToDate = (timestamp) => {
 	const options = { hour: "2-digit", minute: "2-digit", hour12: true };
 
 	if (currentDay === date.getDate()) {
-		return `today ${date.toLocaleString(undefined, options)}`;
+		return `Today at ${date.toLocaleString(undefined, options)}`;
 	}
 	if (parseInt(currentDay) - parseInt(date.getDate()) === 1) {
-		return `yesterday ${date.toLocaleString(undefined, options)}`;
+		return `Yesterday at ${date.toLocaleString(undefined, options)}`;
 	}
 
 	options["month"] = "long";
@@ -18,6 +18,16 @@ const convertTimestampToDate = (timestamp) => {
 	options["year"] = "numeric";
 
 	return date.toLocaleString(undefined, options);
+};
+
+export const getDayMonthYear = (timestamp) => {
+	if (!timestamp) return;
+	const date = new Date(timestamp);
+	const day = date.getDay();
+	const month = date.getMonth();
+	const year = date.getFullYear();
+
+	return { day, month, year };
 };
 
 export default convertTimestampToDate;

@@ -1,8 +1,10 @@
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import { checkJWT } from "utils/tokenUtils";
 
 const ProtectedRoutes = () => {
-	if (!checkJWT()) {
+	const { authUser } = useSelector((state) => state.users);
+
+	if (!authUser?.id) {
 		return <Outlet />;
 	}
 	return <Navigate to={"/home"} />;

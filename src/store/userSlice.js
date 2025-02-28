@@ -4,6 +4,7 @@ const usersSlice = createSlice({
 	name: "users",
 	initialState: {
 		authUser: {},
+		authChecked: false,
 		searchUsers: {
 			searchKeyWord: "",
 			isSearchingUsers: false,
@@ -13,6 +14,9 @@ const usersSlice = createSlice({
 	reducers: {
 		updateAuthUser: (state, action) => {
 			state.authUser = action.payload;
+		},
+		updateAuthChecked: (state) => {
+			state.authChecked = true;
 		},
 		updateUserFullName: (state, action) => {
 			state.authUser = { ...state.authUser, full_name: action.payload };
@@ -41,6 +45,7 @@ const usersSlice = createSlice({
 
 export const {
 	updateAuthUser,
+	updateAuthChecked,
 	updateUserFullName,
 	updateUserStatus,
 	updateUserProfileImage,

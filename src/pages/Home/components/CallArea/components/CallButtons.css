@@ -1,0 +1,14 @@
+.call-accept-and-end-button-container {
+	position: absolute;
+	top: 65%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 30%;
+	display: flex;
+	justify-content: space-evenly;
+	gap: 30px;
+	flex-wrap: wrap;
+}
+.call-accept-and-end-button-container.call-taken {
+	top: 85%;
+}

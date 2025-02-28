@@ -53,11 +53,27 @@ const chatSlice = createSlice({
 		},
 		updateParticipantsOnlineStatus: (state, action) => {
 			const userId = action.payload;
+
 			state.chatList = state.chatList.map((chat) => ({
 				...chat,
 				participants: chat.participants.map((participant) =>
 					participant.id === userId
 						? { ...participant, online: !participant.online }
+						: participant
+				),
+			}));
+		},
+		updateParticipantsOnlineStatusAndLastSeen: (state, action) => {
+			const { userId, lastSeen } = action.payload;
+			state.chatList = state.chatList.map((chat) => ({
+				...chat,
+				participants: chat.participants.map((participant) =>
+					participant.id === userId
+						? {
+								...participant,
+								online: !participant.online,
+								last_seen: lastSeen,
+						  }
 						: participant
 				),
 			}));
@@ -72,6 +88,15 @@ const chatSlice = createSlice({
 				)[0];
 				state.currentChat.messages = chat.messages;
 			}
+		},
+		updateOtherUserWhenCalling: (state, action) => {
+			const otherUserId = action.payload;
+			let otherUser;
+			for (let chat of state.chatList) {
+				otherUser = chat.participants.find((p) => p.id === otherUserId);
+				if (otherUser) break;
+			}
+			state.currentChat.otherUser = otherUser;
 		},
 		updateSeenMessage: (state, action) => {
 			let isUpdating = false;
@@ -123,6 +148,10 @@ const chatSlice = createSlice({
 		activateOrDeactivateChatAreaForSmallDevice: (state) => {
 			state.smallDevice.isSmallDevice = !state.smallDevice.isSmallDevice;
 		},
+		activateOrDeactivateIsUserInVideoCall: (state) => {
+			state.currentChat.isUserInVideoCall =
+				!state.currentChat.isUserInVideoCall;
+		},
 	},
 });
 
@@ -130,11 +159,14 @@ export const {
 	updateChatList,
 	updateChatListWithNewChat,
 	updateCurrentChat,
+	updateOtherUserWhenCalling,
 	clearSeenMessageCount,
 	updateMessagesInChat,
 	updateParticipantsOnlineStatus,
+	updateParticipantsOnlineStatusAndLastSeen,
 	updateSeenMessage,
 	updateCurrentChatMessagesWithNextPage,
 	activateOrDeactivateChatAreaForSmallDevice,
+	activateOrDeactivateIsUserInVideoCall,
 } = chatSlice.actions;
 export default chatSlice.reducer;

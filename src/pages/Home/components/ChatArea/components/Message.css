@@ -115,6 +115,17 @@
 	border-radius: 50%;
 }
 
+/* date tile box */
+.message-date-title-box {
+	display: flex;
+	justify-content: center;
+}
+.message-date-title-box span {
+	border-radius: 25px;
+	padding: 15px 25px;
+	background-color: var(--primary-grey);
+}
+
 /* media queries starts */
 @media (max-width: 600px) {
 	.message-box .message-status {

@@ -1,0 +1,7 @@
+.call-accept-and-end-button-container .call-accept-btn-container {
+	background-color: green;
+	text-align: center;
+	width: 30%;
+	cursor: pointer;
+	border-radius: 15px;
+}

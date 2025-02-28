@@ -34,6 +34,7 @@ const Login = () => {
 			email: email,
 			password: password,
 		};
+		axios.defaults.headers.common.Authorization = "";
 		axios
 			.post(`${BaseUrl}accounts/login/`, data)
 			.then((response) => {

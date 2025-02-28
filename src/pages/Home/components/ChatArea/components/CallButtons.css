@@ -1,0 +1,19 @@
+.user-profile-container .call-btn-container {
+	margin-left: auto;
+	padding-right: 20px;
+}
+.user-profile-container .call-btn-container svg {
+	color: var(--primary-blue);
+	border: solid 2px var(--primary-blue);
+	padding: 8px;
+	border-radius: 10px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.user-profile-container .call-btn-container svg:hover {
+	background-color: var(--primary-blue);
+	color: white;
+	transition: 0.3s ease-in-out;
+	box-shadow: 0px 0px 3px var(--primary-blue);
+}
