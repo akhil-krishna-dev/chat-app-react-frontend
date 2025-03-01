@@ -1,6 +1,5 @@
 import {
 	updateSeenMessage,
-	activateOrDeactivateIsUserInVideoCall,
 	updateMessagesInChat,
 	updateParticipantsOnlineStatus,
 	updateChatListWithNewChat,
@@ -9,7 +8,6 @@ import {
 } from "store/chatSlice";
 import { addAnswer, sendAnswer } from "./signalingService";
 import { updateIsUserInVideoCall, updateUserCallTaken } from "store/callSlice";
-import { addPendingIceCandidates } from "utils/iceCandidatesUtils";
 
 const handleWebSocketMessages = async (
 	socket,
@@ -77,17 +75,19 @@ const handleWebSocketMessages = async (
 			const { offer, created_user_db_id } = data?.data;
 
 			setTimeout(() => {
-				dispatch(updateIsUserInVideoCall(true));
 				dispatch(updateOtherUserWhenCalling(created_user_db_id));
-			}, 2000);
+				dispatch(updateIsUserInVideoCall(true));
+			}, 1000);
 
-			sendAnswer(
-				peerConnectionRef,
-				offer,
-				socket,
-				created_user_db_id,
-				pendingCandidatesRef
-			);
+			setTimeout(() => {
+				sendAnswer(
+					peerConnectionRef,
+					offer,
+					socket,
+					created_user_db_id,
+					pendingCandidatesRef
+				);
+			}, 2000);
 			break;
 
 		case "webrtc_answer":
@@ -120,6 +120,9 @@ const handleWebSocketMessages = async (
 		case "disconnected":
 			handleEndVideoCall();
 			break;
+
+		default:
+			return;
 	}
 };
 
