@@ -4,12 +4,12 @@ import { MdCall } from "react-icons/md";
 import { HomeContext } from "pages/Home/Home";
 
 const CallAcceptButton = () => {
-	const { handleCallAccept } = useContext(HomeContext);
+	const { acceptCall } = useContext(HomeContext);
 	return (
 		<div className="call-accept-btn-container">
 			<MdCall
 				className="call-accept-btn"
-				onClick={handleCallAccept}
+				onClick={acceptCall}
 				size={45}
 				color="white"
 			/>

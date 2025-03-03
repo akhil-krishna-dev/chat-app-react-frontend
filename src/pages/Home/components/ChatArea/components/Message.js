@@ -9,6 +9,8 @@ import AudioPlayer from "./AudioPlayer";
 import { CustomFileIcon } from "components";
 import { useSelector } from "react-redux";
 import convertTimestampToDate from "utils/dateUtils";
+import { FcVideoCall } from "react-icons/fc";
+import { MdCallEnd } from "react-icons/md";
 
 const Messages = memo(
 	({ message, dateTitle }) => {
@@ -98,6 +100,35 @@ const Messages = memo(
 			}
 		};
 
+		const renderTextMessageContent = () => {
+			if (content) {
+				if (content && content.startsWith("Video call")) {
+					return (
+						<p className="call-details">
+							<FcVideoCall
+								size={25}
+								style={{ marginRight: "10px" }}
+							/>
+							{content}
+						</p>
+					);
+				}
+				if (content && content.startsWith("Voice call")) {
+					return (
+						<p className="call-details">
+							<MdCallEnd
+								color="green"
+								size={25}
+								style={{ marginRight: "10px" }}
+							/>
+							{content}
+						</p>
+					);
+				}
+				return <p>{content}</p>;
+			}
+		};
+
 		//
 		//
 		// rendering message component  ---->>>>
@@ -113,14 +144,18 @@ const Messages = memo(
 					</div>
 				);
 			}
-			// rendering all messages
+
+			// rendering the message jsx
 			return (
 				<>
+					{/* rendering date details if it is new date */}
 					{dateTitle && (
 						<div className="message-date-title-box">
 							<span>{renderDateTitleBoxTimestamp()}</span>
 						</div>
 					)}
+
+					{/* rendering the message */}
 					<div className="message-box">
 						<div className={renderMessageBoxClassName()}>
 							{image && <ImageMessage image={image} />}
@@ -152,7 +187,9 @@ const Messages = memo(
 							)}
 
 							{audio && <AudioPlayer audioUrl={audio} />}
-							{content && <p>{content}</p>}
+
+							{/* rendering content */}
+							{renderTextMessageContent()}
 						</div>
 						<div className={renderImageContainerClassName()}>
 							<img src={renderImage()} alt="User" />
@@ -171,11 +208,16 @@ const Messages = memo(
 			);
 		};
 
-		// ---->>>>
+		// return component jsx ---->>>>
 		return renderMessage();
 	},
 	(prevProps, nextProps) => {
-		return prevProps.message.status === nextProps.message.status;
+		if (
+			prevProps.message.status !== nextProps.message.status ||
+			nextProps.dateTitle
+		)
+			return true;
+		return false;
 	}
 );
 

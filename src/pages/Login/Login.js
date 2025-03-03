@@ -6,6 +6,7 @@ import { SubmitButton } from "components";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { setJWT } from "utils/tokenUtils";
+import ChatAppTitle from "components/ChatAppTitleComponent/ChatAppTitle";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
@@ -79,6 +80,7 @@ const Login = () => {
 
 	return (
 		<div className="login-container">
+			<ChatAppTitle />
 			<div className="login-form-container">
 				<h1>Login</h1>
 				<div className="input-container">

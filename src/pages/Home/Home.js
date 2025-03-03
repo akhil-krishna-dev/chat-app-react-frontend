@@ -13,8 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { activateOrDeactivateIsUserInVideoCall } from "store/chatSlice";
 import Call from "./components/CallArea/Call";
 import {
+	resetCallingDuration,
 	updateIsCaller,
 	updateIsUserInVideoCall,
+	updateIsUserInVoiceCall,
 	updateUserCallTaken,
 	updateUserInCall,
 } from "store/callSlice";
@@ -31,9 +33,12 @@ const Home = () => {
 
 	const URL = `${WebSocketUrl}user/notification/?token=${checkJWT()}`;
 
+	// webSocket custom hook
 	const currentWebSocket = useWebSocket(URL);
+
+	// webRTC custom hook
 	const {
-		peerConnectionRef,
+		getPeerConnection,
 		localVideoRef,
 		remoteVideoRef,
 		disconnectWebRTC,
@@ -47,18 +52,27 @@ const Home = () => {
 				currentWebSocket,
 				data,
 				dispatch,
-				peerConnectionRef,
+				getPeerConnection,
 				pendingCandidatesRef,
-				handleEndVideoCall
+				endCall
 			);
 		};
 	}, [currentWebSocket]);
 
-	const handleMakeVideoCall = () => {
-		sendOffer(peerConnectionRef, currentWebSocket, otherUser.id);
+	const handleMakeVideoCall = async () => {
 		dispatch(updateIsCaller(true));
-		dispatch(updateUserInCall());
 		dispatch(updateIsUserInVideoCall(true));
+		const peerConnectionRef = await getPeerConnection();
+		sendOffer("video", peerConnectionRef, currentWebSocket, otherUser.id);
+		dispatch(updateUserInCall());
+	};
+
+	const handleMakeVoiceCall = async () => {
+		dispatch(updateIsCaller(true));
+		dispatch(updateIsUserInVoiceCall(true));
+		const peerConnectionRef = await getPeerConnection();
+		sendOffer("voice", peerConnectionRef, currentWebSocket, otherUser.id);
+		dispatch(updateUserInCall());
 	};
 
 	const sendCallAcceptMessage = () => {
@@ -72,29 +86,33 @@ const Home = () => {
 		);
 	};
 
-	const sendDisconnectMessage = () => {
+	const sendDisconnectMessage = (callDetails) => {
 		currentWebSocket.send(
 			JSON.stringify({
 				type: "disconnected",
 				data: {
+					callDetails,
 					targetUserId: otherUser.id,
 				},
 			})
 		);
 	};
 
-	const handleCallAccept = () => {
+	const acceptCall = () => {
 		sendCallAcceptMessage();
 		dispatch(updateUserCallTaken(true));
 	};
 
-	const handleEndVideoCall = () => {
+	// for video call or voice call
+	const endCall = () => {
 		pendingCandidatesRef.current = [];
+		dispatch(resetCallingDuration());
 		disconnectWebRTC();
 		dispatch(updateIsCaller(false));
 		dispatch(updateUserCallTaken(false));
 		dispatch(activateOrDeactivateIsUserInVideoCall());
 		dispatch(updateIsUserInVideoCall(false));
+		dispatch(updateIsUserInVoiceCall(false));
 	};
 
 	const renderComponent = () => {
@@ -108,8 +126,9 @@ const Home = () => {
 		localVideoRef,
 		remoteVideoRef,
 		handleMakeVideoCall,
-		handleCallAccept,
-		handleEndVideoCall,
+		handleMakeVoiceCall,
+		acceptCall,
+		endCall,
 		sendDisconnectMessage,
 	};
 

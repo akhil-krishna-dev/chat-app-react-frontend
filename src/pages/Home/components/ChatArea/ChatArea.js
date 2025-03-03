@@ -8,7 +8,7 @@ import axios from "axios";
 import { BaseUrl } from "App";
 import { MdCancel } from "react-icons/md";
 import { CustomFileIcon, Loader } from "components";
-import { FaAnglesDown } from "react-icons/fa6";
+import { GoArrowDown } from "react-icons/go";
 import Picker from "@emoji-mart/react";
 import { GiSoundWaves } from "react-icons/gi";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
@@ -445,7 +445,7 @@ const ChatArea = ({ currentWebSocket }) => {
 						onClick={scrollToBottomMessages}
 						className="show-new-message-btn-container"
 					>
-						<FaAnglesDown color="#6464e8" size={20} />
+						<GoArrowDown color="#6464e8" size={30} />
 					</div>
 				</div>
 			);
@@ -508,16 +508,10 @@ const ChatArea = ({ currentWebSocket }) => {
 		let createdAt = { day: "", month: "", year: "" };
 		return messages?.results?.map((message) => {
 			const { day, month, year } = getDayMonthYear(message.timestamp);
-			if (createdAt.day === "") {
-				createdAt = { day, month, year };
-				return (
-					<Message
-						key={message.id}
-						message={message}
-						dateTitle={true}
-					/>
-				);
-			}
+
+			if (message.status === "chat created")
+				return <Message key={message.id} message={message} />;
+
 			if (
 				day === createdAt.day &&
 				month === createdAt.month &&
@@ -538,6 +532,7 @@ const ChatArea = ({ currentWebSocket }) => {
 		});
 	};
 
+	// rendering ChatArea JSX
 	return (
 		<div className={`chat-area-container ${isSmallDevice && "active"}`}>
 			<UserProfile />

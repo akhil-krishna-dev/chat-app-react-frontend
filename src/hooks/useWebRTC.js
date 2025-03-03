@@ -7,6 +7,9 @@ const useWebRTC = (socket) => {
 	const peerConnectionRef = useRef(null);
 	const localStreamRef = useRef(null);
 
+	const { isUserInVideoCall } = useSelector((state) => state.call.videoCall);
+	const { isUserInVoiceCall } = useSelector((state) => state.call.voiceCall);
+
 	const { otherUser } = useSelector((state) => state.chatList.currentChat);
 
 	const servers = {
@@ -14,12 +17,14 @@ const useWebRTC = (socket) => {
 	};
 
 	useEffect(() => {
+		if (!isUserInVideoCall && !isUserInVoiceCall) return;
+
 		if (!peerConnectionRef.current) {
 			peerConnectionRef.current = new RTCPeerConnection(servers);
 		}
 
 		navigator.mediaDevices
-			.getUserMedia({ video: true, audio: true })
+			.getUserMedia({ video: isUserInVideoCall, audio: true })
 			.then((stream) => {
 				localStreamRef.current = stream;
 				if (localVideoRef.current) {
@@ -54,26 +59,29 @@ const useWebRTC = (socket) => {
 				);
 			}
 		};
+	}, [
+		socket,
+		otherUser,
+		peerConnectionRef.current,
+		isUserInVideoCall,
+		isUserInVoiceCall,
+	]);
 
-		// peerConnectionRef.current.oniceconnectionstatechange = () => {
-		// 	console.log(
-		// 		"state of connection",
-		// 		peerConnectionRef.current.iceConnectionState
-		// 	);
-		// };
-
-		// peerConnectionRef.current.onconnectionstatechange = () => {
-		// 	console.log(
-		// 		"Connection State:",
-		// 		peerConnectionRef.current.connectionState
-		// 	);
-
-		// 	if (peerConnectionRef.current.connectionState === "disconnected") {
-		// 		console.log("Peer connection lost!");
-		// 		// disconnectWebRTC();
-		// 	}
-		// };
-	}, [socket, otherUser, peerConnectionRef.current]);
+	// getting for current peerConnection in promise
+	const getPeerConnection = async () => {
+		return new Promise((resolve) => {
+			const peerInterval = setInterval(() => {
+				if (
+					peerConnectionRef.current &&
+					localStreamRef.current &&
+					remoteVideoRef.current
+				) {
+					clearInterval(peerInterval);
+					resolve(peerConnectionRef);
+				}
+			}, 100);
+		});
+	};
 
 	// Disconnect method
 	const disconnectWebRTC = () => {
@@ -103,7 +111,7 @@ const useWebRTC = (socket) => {
 	return {
 		localVideoRef,
 		remoteVideoRef,
-		peerConnectionRef,
+		getPeerConnection,
 		disconnectWebRTC,
 	};
 };

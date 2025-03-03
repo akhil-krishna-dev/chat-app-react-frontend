@@ -1,13 +1,17 @@
 import { activateOrDeactivateIsUserInVideoCall } from "store/chatSlice";
 import { addPendingIceCandidates } from "utils/iceCandidatesUtils";
 //
-
 // creating an offer and sending
-export const sendOffer = async (peerConnectionRef, socket, targetUserId) => {
+export const sendOffer = async (
+	media,
+	peerConnectionRef,
+	socket,
+	targetUserId
+) => {
 	const offer = await peerConnectionRef.current.createOffer();
 	await peerConnectionRef.current.setLocalDescription(offer);
 
-	const data = { type: "offer", data: { offer, targetUserId } };
+	const data = { type: "offer", data: { media, offer, targetUserId } };
 
 	socket.send(JSON.stringify(data));
 };
@@ -47,16 +51,9 @@ export const addAnswer = (
 		peerConnectionRef.current
 			.setRemoteDescription(new RTCSessionDescription(answer))
 			.then(() => {
-				console.log("Remote description set");
 				dispatch(activateOrDeactivateIsUserInVideoCall());
 			})
-			.catch((err) =>
-				console.error("Error setting remote description:", err)
-			);
+			.catch((err) => {});
 		addPendingIceCandidates(pendingCandidatesRef, peerConnectionRef);
 	}
-};
-// uniq id creator for users
-export const createUniqUserId = () => {
-	return Math.random().toString(36).substr(2, 9);
 };

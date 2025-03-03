@@ -1,24 +1,26 @@
-.sidebar-container{
-    width: 33%;
-    background-color: var(--primary-grey);
-    padding: 15px;
-    height: 100vh;
+.sidebar-container {
+	width: 33%;
+	background-color: var(--primary-grey);
+	padding: 15px;
+	height: 100vh;
+	position: relative;
 }
-.sidebar-container .back-to-chat-page{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-bottom: 20px; 
+.sidebar-container .back-to-chat-page {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	cursor: pointer;
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	position: absolute;
+	right: 25px;
+	z-index: 1000;
 }
-
-
 
 /* media queries starts */
-@media (max-width:968px){
-    .sidebar-container{
-        width: 100%;
-    }  
+@media (max-width: 968px) {
+	.sidebar-container {
+		width: 100%;
+	}
 }

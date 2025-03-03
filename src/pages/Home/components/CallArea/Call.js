@@ -17,8 +17,7 @@ const Call = () => {
 
 	return (
 		<div hidden={handleTogglCallHide()} className="all-calls-container">
-			<VoiceCall />
-			<VideoCall />
+			{isUserInVideoCall ? <VideoCall /> : <VoiceCall />}
 		</div>
 	);
 };

@@ -12,11 +12,11 @@ const callStatusSlice = createSlice({
 		isCaller: false,
 		userInCall: false,
 		userCallTaken: false,
+		callingDuration: 0,
 	},
 	reducers: {
-		updateIsUserInVoiceCall: (state) => {
-			state.voiceCall.isUserInVoiceCall =
-				!state.voiceCall.isUserInVoiceCall;
+		updateIsUserInVoiceCall: (state, action) => {
+			state.voiceCall.isUserInVoiceCall = action.payload;
 		},
 		updateIsUserInVideoCall: (state, action) => {
 			state.videoCall.isUserInVideoCall = action.payload;
@@ -30,6 +30,12 @@ const callStatusSlice = createSlice({
 		updateUserCallTaken: (state, action) => {
 			state.userCallTaken = action.payload;
 		},
+		updateCallingDuration: (state) => {
+			state.callingDuration = state.callingDuration + 1;
+		},
+		resetCallingDuration: (state) => {
+			state.callingDuration = 0;
+		},
 	},
 });
 
@@ -39,5 +45,7 @@ export const {
 	updateIsCaller,
 	updateUserInCall,
 	updateUserCallTaken,
+	updateCallingDuration,
+	resetCallingDuration,
 } = callStatusSlice.actions;
 export default callStatusSlice.reducer;

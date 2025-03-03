@@ -1,0 +1,19 @@
+.voice-call-screen-container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.voice-call-screen-container .voice-call-screen {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	height: 100%;
+}
+.voice-call-screen-container .voice-call-screen.ringing {
+	display: none;
+}
+.voice-call-screen-container .voice-call-screen .remote-voice {
+	height: 92vh;
+}

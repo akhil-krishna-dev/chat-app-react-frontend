@@ -13,7 +13,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 25px;
+	margin-bottom: 10px;
 }
 
 .chat-area-container .messages-container .first-load-container {
@@ -38,7 +38,7 @@
 	.loader-container
 	.old-messages-loading-btn {
 	border-radius: 25px;
-	margin-bottom: 15px;
+	/* margin-bottom: 15px; */
 	cursor: pointer;
 	/* background-color: #0088ff; */
 	color: white;
@@ -51,19 +51,20 @@
 	position: absolute;
 	bottom: 17vh;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: end;
 	width: 65%;
+	padding-right: 15px;
 }
 .chat-area-container .messages-container .show-new-message-btn-container {
-	padding: 12px 25px;
-	border-radius: 25px;
+	padding: 10px;
+	border-radius: 15px;
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	background-color: white;
 	border: solid 2px #6464e8;
+	box-shadow: 8px 9px 10px 1px rgb(81 81 86);
 }
 
 .chat-area-container .messages-container .loader-container .loader {

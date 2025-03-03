@@ -60,7 +60,7 @@ const UserProfile = () => {
 				{renderOnlineStatus()}
 			</div>
 
-			{/* calling and video calling button components */}
+			{/* voice calling and video calling button components */}
 			<CallButtons />
 
 			{/* for small screen devices */}

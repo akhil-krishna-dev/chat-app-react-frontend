@@ -6,6 +6,7 @@ import "./Register.css";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { setJWT } from "utils/tokenUtils";
+import ChatAppTitle from "components/ChatAppTitleComponent/ChatAppTitle";
 
 const Register = () => {
 	const [email, setEmail] = useState("");
@@ -63,6 +64,7 @@ const Register = () => {
 
 	return (
 		<div className="register-container">
+			<ChatAppTitle />
 			<div className="register-form-container">
 				<h1>Register</h1>
 				<div className="input-container">

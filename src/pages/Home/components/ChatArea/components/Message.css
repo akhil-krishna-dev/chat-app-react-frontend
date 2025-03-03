@@ -36,6 +36,11 @@
 	white-space: pre-wrap;
 	word-break: break-word;
 }
+.each-messages-container .call-details {
+	background-color: white;
+	color: black;
+}
+
 .each-messages-container.current-user p {
 	justify-content: flex-end;
 	background-color: rgb(234, 230, 230);
@@ -46,6 +51,10 @@
 	max-width: 75%;
 	white-space: pre-wrap;
 	word-break: break-word;
+}
+.each-messages-container.current-user .call-details {
+	background-color: white;
+	color: black;
 }
 
 .each-messages-container .file-container {
@@ -119,11 +128,21 @@
 .message-date-title-box {
 	display: flex;
 	justify-content: center;
+	position: sticky;
+	top: 0px;
 }
 .message-date-title-box span {
 	border-radius: 25px;
-	padding: 15px 25px;
-	background-color: var(--primary-grey);
+	background-color: rgb(65 65 233);
+	color: white;
+	font-weight: bold;
+	width: 22%;
+	max-width: 160px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 8px 9px 10px 1px rgb(81 81 86);
 }
 
 /* media queries starts */

@@ -7,17 +7,23 @@ import {
 	updateOtherUserWhenCalling,
 } from "store/chatSlice";
 import { addAnswer, sendAnswer } from "./signalingService";
-import { updateIsUserInVideoCall, updateUserCallTaken } from "store/callSlice";
+import {
+	updateIsUserInVideoCall,
+	updateIsUserInVoiceCall,
+	updateUserCallTaken,
+} from "store/callSlice";
 
 const handleWebSocketMessages = async (
 	socket,
 	data,
 	dispatch,
-	peerConnectionRef,
+	getPeerConnection,
 	pendingCandidatesRef,
-	handleEndVideoCall
+	endCall
 ) => {
 	if (!data) return;
+
+	let peerConnectionRef = null;
 
 	switch (data.type) {
 		case "message_notification":
@@ -72,38 +78,46 @@ const handleWebSocketMessages = async (
 			break;
 
 		case "webrtc_offer":
-			const { offer, created_user_db_id } = data?.data;
+			const { media, offer, created_user_db_id } = data?.data;
 
-			setTimeout(() => {
-				dispatch(updateOtherUserWhenCalling(created_user_db_id));
-				dispatch(updateIsUserInVideoCall(true));
-			}, 1000);
+			dispatch(updateOtherUserWhenCalling(created_user_db_id));
 
-			setTimeout(() => {
-				sendAnswer(
-					peerConnectionRef,
-					offer,
-					socket,
-					created_user_db_id,
-					pendingCandidatesRef
-				);
-			}, 2000);
+			if (media === "video") {
+				setTimeout(() => {
+					dispatch(updateIsUserInVideoCall(true));
+				}, 100);
+			} else {
+				dispatch(updateIsUserInVoiceCall(true));
+			}
+
+			peerConnectionRef = await getPeerConnection();
+
+			sendAnswer(
+				peerConnectionRef,
+				offer,
+				socket,
+				created_user_db_id,
+				pendingCandidatesRef
+			);
+
 			break;
 
 		case "webrtc_answer":
 			const { answer } = data?.data;
 
+			peerConnectionRef = await getPeerConnection();
 			addAnswer(
 				answer,
 				peerConnectionRef,
 				pendingCandidatesRef,
 				dispatch
 			);
+
 			break;
 
 		case "candidate":
 			const { candidate } = data?.data;
-
+			peerConnectionRef = await getPeerConnection();
 			if (peerConnectionRef.current.remoteDescription) {
 				await peerConnectionRef.current?.addIceCandidate(
 					new RTCIceCandidate(candidate)
@@ -111,6 +125,7 @@ const handleWebSocketMessages = async (
 			} else {
 				pendingCandidatesRef.current.push(candidate);
 			}
+
 			break;
 
 		case "call-accepted":
@@ -118,7 +133,7 @@ const handleWebSocketMessages = async (
 			break;
 
 		case "disconnected":
-			handleEndVideoCall();
+			endCall();
 			break;
 
 		default:
