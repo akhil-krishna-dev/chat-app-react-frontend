@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "config";
 import "./UsersList.css";
 import { Loader } from "components";
-import { BaseUrl } from "App";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateChatListWithNewChat } from "store/chatSlice";
@@ -22,7 +22,7 @@ const UsersList = () => {
 
 		setIsCreatingChat(true);
 		axios
-			.post(`${BaseUrl}home/chats/`, { participants: userIds })
+			.post(`${API_URL}home/chats/`, { participants: userIds })
 			.then((response) => {
 				if (response.statusText === "Created") {
 					dispatch(updateChatListWithNewChat(response.data));

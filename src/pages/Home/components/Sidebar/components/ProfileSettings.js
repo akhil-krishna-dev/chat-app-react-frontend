@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./ProfileSettings.css";
-import { BaseUrl } from "App";
-import Swal from "sweetalert2";
+import { API_URL } from "config";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { GrEdit } from "react-icons/gr";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { BiLoaderAlt } from "react-icons/bi";
@@ -94,12 +94,13 @@ const ProfileSettings = () => {
 	}, [completedCrop]);
 
 	const handleSavingProfileImage = async () => {
+		setImgChangeLoader(true);
 		const formData = new FormData();
 		formData.append("image", croppedImage);
 
 		try {
 			const response = await axios.post(
-				`${BaseUrl}accounts/users/change-profile-image`,
+				`${API_URL}accounts/users/change-profile-image`,
 				formData,
 				{
 					headers: {
@@ -111,6 +112,7 @@ const ProfileSettings = () => {
 				dispatch(updateUserProfileImage(response.data.image));
 				setSelectedImage(null);
 				setCroppedImage(null);
+				setImgChangeLoader(false);
 			}
 		} catch (error) {
 			console.log(error);
@@ -137,7 +139,7 @@ const ProfileSettings = () => {
 		});
 		if (formValues) {
 			axios
-				.post(`${BaseUrl}accounts/users/edit-username`, {
+				.post(`${API_URL}accounts/users/edit-username`, {
 					first_name: formValues[0],
 					last_name: formValues[1],
 				})
@@ -174,7 +176,7 @@ const ProfileSettings = () => {
 		});
 		if (status) {
 			axios
-				.post(`${BaseUrl}accounts/users/edit-status`, {
+				.post(`${API_URL}accounts/users/edit-status`, {
 					status: status,
 				})
 				.then((response) => {
@@ -192,8 +194,9 @@ const ProfileSettings = () => {
 
 	const renderImageChangeAction = () => {
 		if (imgChangeLoader) {
-			return <BiLoaderAlt size={50} />;
+			return <BiLoaderAlt size={50} color="green" />;
 		}
+
 		if (croppedImage) {
 			return (
 				<IoIosCheckmarkCircle

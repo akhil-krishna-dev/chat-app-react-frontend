@@ -1,7 +1,6 @@
 import { memo, useMemo } from "react";
 import "./Message.css";
 import { SlOptionsVertical } from "react-icons/sl";
-import { BaseUrl } from "App";
 import ImageMessage from "./ImageMessage";
 import { IoMdDownload } from "react-icons/io";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
@@ -11,6 +10,7 @@ import { useSelector } from "react-redux";
 import convertTimestampToDate from "utils/dateUtils";
 import { FcVideoCall } from "react-icons/fc";
 import { MdCallEnd } from "react-icons/md";
+import { API_URL } from "config";
 
 const Messages = memo(
 	({ message, dateTitle }) => {
@@ -78,7 +78,7 @@ const Messages = memo(
 
 		const renderImage = () => {
 			return isAuthUserMessage
-				? `${BaseUrl.replace("/api/", "")}${authUser?.image}`
+				? `${API_URL.replace("/api/", "")}${authUser?.image}`
 				: `${otherUser?.image}`;
 		};
 

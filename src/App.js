@@ -10,9 +10,6 @@ if (window.location.pathname === "/") {
 	window.location.pathname = "/home";
 }
 
-export const BaseUrl = "http://127.0.0.1:8000/api/";
-export const WebSocketUrl = "ws://127.0.0.1:8000/ws/";
-
 const App = () => {
 	const { authChecked } = useSelector((state) => state.users);
 	const dispatch = useDispatch();

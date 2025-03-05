@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { API_URL } from "config";
 import axios from "axios";
-import { BaseUrl } from "App";
 import { SubmitButton } from "components";
 import "./Register.css";
 import { Link } from "react-router-dom";
@@ -26,10 +26,10 @@ const Register = () => {
 			confirm_password: confirmPassword,
 		};
 		axios
-			.post(`${BaseUrl}accounts/register/`, data)
+			.post(`${API_URL}accounts/register/`, data)
 			.then((response) => {
 				axios
-					.post(`${BaseUrl}accounts/login/`, {
+					.post(`${API_URL}accounts/login/`, {
 						email: data.email,
 						password: data.password,
 					})

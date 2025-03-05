@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { BaseUrl } from "App";
 import { Loader } from "components";
+import { API_URL } from "config";
 
 const Logout = () => {
 	const [loader, setLoader] = useState(false);
@@ -10,7 +10,7 @@ const Logout = () => {
 		setLoader(true);
 
 		axios
-			.post(`${BaseUrl}accounts/users/logout/`)
+			.post(`${API_URL}accounts/users/logout/`)
 			.then((response) => {
 				localStorage.clear();
 				setTimeout(() => {

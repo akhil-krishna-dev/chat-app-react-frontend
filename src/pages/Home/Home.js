@@ -4,7 +4,6 @@ import ChatArea from "./components/ChatArea/ChatArea";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ChatAreaBackgroud from "components/BackgroundComponents/ChatAreaBackground";
 import useWebSocket from "hooks/useWebsocket";
-import { WebSocketUrl } from "App";
 import { checkJWT } from "utils/tokenUtils";
 import useWebRTC from "hooks/useWebRTC";
 import { sendOffer } from "services/signalingService";
@@ -20,6 +19,7 @@ import {
 	updateUserCallTaken,
 	updateUserInCall,
 } from "store/callSlice";
+import { WEBSOCKET_URL } from "config";
 
 export const HomeContext = React.createContext();
 
@@ -31,7 +31,7 @@ const Home = () => {
 
 	const pendingCandidatesRef = useRef([]);
 
-	const URL = `${WebSocketUrl}user/notification/?token=${checkJWT()}`;
+	const URL = `${WEBSOCKET_URL}user/notification/?token=${checkJWT()}`;
 
 	// webSocket custom hook
 	const currentWebSocket = useWebSocket(URL);

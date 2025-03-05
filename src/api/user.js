@@ -1,4 +1,4 @@
-import { BaseUrl } from "App";
+import { API_URL } from "config";
 import axios from "axios";
 import { fetchChats } from "./chat";
 import {
@@ -12,7 +12,7 @@ import { checkJWT } from "utils/tokenUtils";
 export const fetchUser = (dispatch) => {
 	if (!checkJWT()) return dispatch(updateAuthChecked());
 	axios
-		.get(`${BaseUrl}accounts/request-user-profile/`)
+		.get(`${API_URL}accounts/request-user-profile/`)
 		.then((response) => {
 			dispatch(updateAuthUser(response.data));
 			fetchChats(dispatch);
@@ -26,7 +26,7 @@ export const fetchUser = (dispatch) => {
 };
 
 export const fetchUsersWithKeyWords = ({ searchKeyWord, dispatch }) => {
-	let URL = `${BaseUrl}accounts/users/search/`;
+	let URL = `${API_URL}accounts/users/search/`;
 
 	if (searchKeyWord) {
 		URL += `?query=${searchKeyWord}`;

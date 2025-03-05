@@ -5,7 +5,6 @@ import Message from "./components/Message";
 import MessageInput from "./components/MessageInput";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { BaseUrl } from "App";
 import { MdCancel } from "react-icons/md";
 import { CustomFileIcon, Loader } from "components";
 import { GoArrowDown } from "react-icons/go";
@@ -23,6 +22,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { makeMessgesAsSeen } from "utils/messageUtils";
 import { getDayMonthYear } from "utils/dateUtils";
+import { API_URL } from "config";
 
 const ChatArea = ({ currentWebSocket }) => {
 	const { otherUser, messages } = useSelector(
@@ -187,7 +187,7 @@ const ChatArea = ({ currentWebSocket }) => {
 		let pageUrl = "";
 		if (nextPage) {
 			const urlArr = nextPage.split("=");
-			pageUrl = `${BaseUrl}home/chats/${chatId}/?page=${urlArr[1]}`;
+			pageUrl = `${API_URL}home/chats/${chatId}/?page=${urlArr[1]}`;
 		}
 		axios
 			.get(pageUrl)
@@ -259,7 +259,7 @@ const ChatArea = ({ currentWebSocket }) => {
 		if (selectedFile) {
 			axios
 				.post(
-					`${BaseUrl}home/chats/${chatId}/send_any_file/`,
+					`${API_URL}home/chats/${chatId}/send_any_file/`,
 					formData,
 					{
 						headers: {
@@ -300,7 +300,7 @@ const ChatArea = ({ currentWebSocket }) => {
 		if (selectedImage) {
 			axios
 				.post(
-					`${BaseUrl}home/chats/${chatId}/send_image_file/`,
+					`${API_URL}home/chats/${chatId}/send_image_file/`,
 					formData,
 					{
 						headers: {
@@ -346,7 +346,7 @@ const ChatArea = ({ currentWebSocket }) => {
 
 		axios
 			.post(
-				`${BaseUrl}home/chats/${chatId}/send_voice_message/`,
+				`${API_URL}home/chats/${chatId}/send_voice_message/`,
 				formData,
 				{
 					headers: {
@@ -395,7 +395,7 @@ const ChatArea = ({ currentWebSocket }) => {
 			setMessage("");
 		} else {
 			axios
-				.post(`${BaseUrl}home/chats/${chatId}/send_message/`, {
+				.post(`${API_URL}home/chats/${chatId}/send_message/`, {
 					content: message,
 				})
 				.then((response) => {})

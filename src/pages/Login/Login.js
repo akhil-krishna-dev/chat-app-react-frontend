@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { API_URL } from "config";
 import axios from "axios";
-import { BaseUrl } from "App";
 import { SubmitButton } from "components";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -37,7 +37,7 @@ const Login = () => {
 		};
 		axios.defaults.headers.common.Authorization = "";
 		axios
-			.post(`${BaseUrl}accounts/login/`, data)
+			.post(`${API_URL}accounts/login/`, data)
 			.then((response) => {
 				setJWT(response.data);
 				window.location.pathname = "/home";
