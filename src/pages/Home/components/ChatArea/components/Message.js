@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import convertTimestampToDate from "utils/dateUtils";
 import { FcVideoCall } from "react-icons/fc";
 import { MdCallEnd } from "react-icons/md";
-import { API_URL } from "config";
+
 
 const Messages = memo(
 	({ message, dateTitle }) => {
@@ -78,7 +78,7 @@ const Messages = memo(
 
 		const renderImage = () => {
 			return isAuthUserMessage
-				? `${API_URL.replace("/api/", "")}${authUser?.image}`
+				? `${authUser?.image}`
 				: `${otherUser?.image}`;
 		};
 

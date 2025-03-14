@@ -233,7 +233,7 @@ const ProfileSettings = () => {
 						) : (
 							<div onClick={triggerFileInput} className="image">
 								<img
-									src={`${API_URL.replace("/api/", "")}${authUser.image}`}
+									src={authUser.image}
 									alt="profile.jpg"
 								/>
 							</div>

@@ -3,7 +3,6 @@ import "./OwnerProfile.css";
 import { Link, useParams } from "react-router-dom";
 import { GrEdit } from "react-icons/gr";
 import { useSelector } from "react-redux";
-import { API_URL } from "config";
 
 const OwnerProfile = () => {
 	const { authUser } = useSelector((state) => state.users);
@@ -27,9 +26,7 @@ const OwnerProfile = () => {
 						className="owner-profile-image-container"
 					>
 						<img
-							src={`${API_URL.replace("/api/", "")}${
-								authUser.image
-							}`}
+							src={authUser.image}
 							alt={authUser.full_name}
 						/>
 					</Link>
