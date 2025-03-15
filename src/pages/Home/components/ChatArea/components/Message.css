@@ -133,7 +133,7 @@
 }
 .message-date-title-box span {
 	border-radius: 25px;
-	background-color: rgb(65 65 233);
+	background-color: rgb(92 92 93);
 	color: white;
 	font-weight: bold;
 	width: 22%;
@@ -142,7 +142,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 8px 9px 10px 1px rgb(81 81 86);
+	box-shadow: 3px 7px 10px -9px rgb(81 81 86);
 }
 
 /* media queries starts */

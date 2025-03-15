@@ -11,7 +11,6 @@ import convertTimestampToDate from "utils/dateUtils";
 import { FcVideoCall } from "react-icons/fc";
 import { MdCallEnd } from "react-icons/md";
 
-
 const Messages = memo(
 	({ message, dateTitle }) => {
 		const { otherUser } = useSelector(
