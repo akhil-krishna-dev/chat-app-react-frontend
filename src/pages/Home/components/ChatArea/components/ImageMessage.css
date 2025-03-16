@@ -1,16 +1,22 @@
-.image-message-container{
-    width: 32%;
-    height: 150px;
-    border: solid 5px black;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    background-color: black;
-    margin-bottom: 5px;
-    cursor: pointer;
+.image-message-container {
+	width: 32%;
+	height: 150px;
+	border: solid 5px black;
+	border-radius: 10px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	background-color: black;
+	margin-bottom: 5px;
+	cursor: pointer;
 }
-.image-message-container img{
-    width: auto;
-    height: 100%;
+.image-message-container img {
+	width: auto;
+	height: 100%;
+}
+
+@media (width<768px) {
+	.image-message-container {
+		width: 70%;
+	}
 }

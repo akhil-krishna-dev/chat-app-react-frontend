@@ -53,3 +53,19 @@
 		cursor: pointer;
 	}
 }
+
+@media (width<768px) {
+	.user-profile-container {
+		padding: 20px;
+	}
+	.user-profile-container .chat-back-btn-container {
+		position: absolute;
+		z-index: 1000;
+		right: 15px;
+		top: 155px;
+	}
+	.user-profile-container .chat-back-btn-container svg {
+		box-shadow: 2px 4px 6px 1px;
+		border-radius: 50%;
+	}
+}
