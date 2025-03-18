@@ -9,7 +9,7 @@ import { CustomFileIcon } from "components";
 import { useSelector } from "react-redux";
 import convertTimestampToDate from "utils/dateUtils";
 import { FcVideoCall } from "react-icons/fc";
-import { MdCallEnd } from "react-icons/md";
+import { MdCallEnd, MdCallMissed, MdMissedVideoCall } from "react-icons/md";
 
 const Messages = memo(
 	({ message, dateTitle }) => {
@@ -102,24 +102,43 @@ const Messages = memo(
 		const renderTextMessageContent = () => {
 			if (content) {
 				if (content && content.startsWith("Video call")) {
+					const contentItems = content.split(" ");
 					return (
 						<p className="call-details">
-							<FcVideoCall
-								size={25}
-								style={{ marginRight: "10px" }}
-							/>
+							{contentItems[2] === "" ? (
+								<MdMissedVideoCall
+									size={25}
+									color="red"
+									style={{ marginRight: "10px" }}
+								/>
+							) : (
+								<FcVideoCall
+									size={25}
+									style={{ marginRight: "10px" }}
+								/>
+							)}
 							{content}
 						</p>
 					);
 				}
 				if (content && content.startsWith("Voice call")) {
+					const contentItems = content.split(" ");
+
 					return (
 						<p className="call-details">
-							<MdCallEnd
-								color="green"
-								size={25}
-								style={{ marginRight: "10px" }}
-							/>
+							{contentItems[2] === "" ? (
+								<MdCallMissed
+									color="red"
+									size={25}
+									style={{ marginRight: "10px" }}
+								/>
+							) : (
+								<MdCallEnd
+									color="green"
+									size={25}
+									style={{ marginRight: "10px" }}
+								/>
+							)}
 							{content}
 						</p>
 					);
