@@ -5,7 +5,7 @@ const useWebRTC = (socket) => {
 	const localVideoRef = useRef(null);
 	const remoteVideoRef = useRef(null);
 	const peerConnectionRef = useRef(null);
-	const localStreamRef = useRef(null);
+	const mediaPermissionRef = useRef({ state: "pending" });
 
 	const { isUserInVideoCall } = useSelector((state) => state.call.videoCall);
 	const { isUserInVoiceCall } = useSelector((state) => state.call.voiceCall);
@@ -23,10 +23,13 @@ const useWebRTC = (socket) => {
 			peerConnectionRef.current = new RTCPeerConnection(servers);
 		}
 
+		mediaPermissionRef.current.state = "pending";
+
 		navigator.mediaDevices
 			.getUserMedia({ video: isUserInVideoCall, audio: true })
 			.then((stream) => {
-				localStreamRef.current = stream;
+				mediaPermissionRef.current.state = "allowed";
+
 				if (localVideoRef.current) {
 					localVideoRef.current.srcObject = stream;
 					stream
@@ -38,6 +41,7 @@ const useWebRTC = (socket) => {
 			})
 			.catch((error) => {
 				console.log(error);
+				mediaPermissionRef.current.state = "denied";
 			});
 
 		peerConnectionRef.current.ontrack = (event) => {
@@ -69,11 +73,16 @@ const useWebRTC = (socket) => {
 
 	// getting for current peerConnection in promise
 	const getPeerConnection = async () => {
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			const peerInterval = setInterval(() => {
+				if (mediaPermissionRef.current.state === "denied") {
+					clearInterval(peerInterval);
+					reject(false);
+				}
 				if (
+					mediaPermissionRef.current.state === "allowed" &&
 					peerConnectionRef.current &&
-					localStreamRef.current &&
+					localVideoRef.current &&
 					remoteVideoRef.current
 				) {
 					clearInterval(peerInterval);
@@ -85,25 +94,36 @@ const useWebRTC = (socket) => {
 
 	// Disconnect method
 	const disconnectWebRTC = () => {
+		mediaPermissionRef.current.state = "pending";
 		// Close peer connection
 		if (peerConnectionRef.current) {
 			peerConnectionRef.current.ontrack = null;
 			peerConnectionRef.current.onicecandidate = null;
+			peerConnectionRef.current.onnegotiationneeded = null;
+			peerConnectionRef.current.onsignalingstatechange = null;
+			peerConnectionRef.current.onconnectionstatechange = null;
+			peerConnectionRef.current.oniceconnectionstatechange = null;
+			peerConnectionRef.current.onicegatheringstatechange = null;
+
 			peerConnectionRef.current.close();
 			peerConnectionRef.current = null;
 		}
 
-		// Stop all media tracks
-		if (localStreamRef.current) {
-			localStreamRef.current.getTracks().forEach((track) => track.stop());
-			localStreamRef.current = null;
-		}
-
 		// Clear video elements
 		if (localVideoRef.current) {
+			localVideoRef.current?.srcObject?.getTracks().forEach((track) => {
+				track.stop();
+			});
 			localVideoRef.current.srcObject = null;
 		}
-		if (remoteVideoRef.current) {
+
+		// Stop all media tracks remote live
+		if (remoteVideoRef.current && remoteVideoRef.current.srcObject) {
+			remoteVideoRef.current?.srcObject?.getTracks().forEach((track) => {
+				if (track.readyState === "live") {
+					track.stop();
+				}
+			});
 			remoteVideoRef.current.srcObject = null;
 		}
 	};

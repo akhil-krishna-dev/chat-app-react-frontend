@@ -44,6 +44,18 @@ const Home = () => {
 		disconnectWebRTC,
 	} = useWebRTC(currentWebSocket);
 
+	// for ending video call or voice call
+	const endCall = () => {
+		pendingCandidatesRef.current = [];
+		dispatch(resetCallingDuration());
+		disconnectWebRTC();
+		dispatch(updateIsCaller(false));
+		dispatch(updateUserCallTaken(false));
+		dispatch(activateOrDeactivateIsUserInVideoCall());
+		dispatch(updateIsUserInVideoCall(false));
+		dispatch(updateIsUserInVoiceCall(false));
+	};
+
 	useEffect(() => {
 		if (!currentWebSocket) return;
 		currentWebSocket.onmessage = (event) => {
@@ -60,11 +72,22 @@ const Home = () => {
 	}, [currentWebSocket]);
 
 	const handleMakeVideoCall = async () => {
-		dispatch(updateIsCaller(true));
-		dispatch(updateIsUserInVideoCall(true));
-		const peerConnectionRef = await getPeerConnection();
-		sendOffer("video", peerConnectionRef, currentWebSocket, otherUser.id);
-		dispatch(updateUserInCall());
+		try {
+			dispatch(updateIsCaller(true));
+			dispatch(updateIsUserInVideoCall(true));
+
+			const peerConnectionRef = await getPeerConnection();
+
+			sendOffer(
+				"video",
+				peerConnectionRef,
+				currentWebSocket,
+				otherUser.id
+			);
+			dispatch(updateUserInCall());
+		} catch (error) {
+			return;
+		}
 	};
 
 	const handleMakeVoiceCall = async () => {
@@ -101,18 +124,6 @@ const Home = () => {
 	const acceptCall = () => {
 		sendCallAcceptMessage();
 		dispatch(updateUserCallTaken(true));
-	};
-
-	// for video call or voice call
-	const endCall = () => {
-		pendingCandidatesRef.current = [];
-		dispatch(resetCallingDuration());
-		disconnectWebRTC();
-		dispatch(updateIsCaller(false));
-		dispatch(updateUserCallTaken(false));
-		dispatch(activateOrDeactivateIsUserInVideoCall());
-		dispatch(updateIsUserInVideoCall(false));
-		dispatch(updateIsUserInVoiceCall(false));
 	};
 
 	const renderComponent = () => {

@@ -16,8 +16,8 @@ const CallEndButton = () => {
 		if (callingDuration) {
 			callDetails += getCallingDuration(callingDuration);
 		}
-		sendDisconnectMessage(callDetails);
 		endCall();
+		sendDisconnectMessage(callDetails);
 	};
 
 	return (

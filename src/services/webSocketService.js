@@ -90,7 +90,11 @@ const handleWebSocketMessages = async (
 				dispatch(updateIsUserInVoiceCall(true));
 			}
 
-			peerConnectionRef = await getPeerConnection();
+			try {
+				peerConnectionRef = await getPeerConnection();
+			} catch (error) {
+				if (!peerConnectionRef) return;
+			}
 
 			sendAnswer(
 				peerConnectionRef,
@@ -105,7 +109,12 @@ const handleWebSocketMessages = async (
 		case "webrtc_answer":
 			const { answer } = data?.data;
 
-			peerConnectionRef = await getPeerConnection();
+			try {
+				peerConnectionRef = await getPeerConnection();
+			} catch (error) {
+				if (!peerConnectionRef) return;
+			}
+
 			addAnswer(
 				answer,
 				peerConnectionRef,
@@ -117,7 +126,13 @@ const handleWebSocketMessages = async (
 
 		case "candidate":
 			const { candidate } = data?.data;
-			peerConnectionRef = await getPeerConnection();
+
+			try {
+				peerConnectionRef = await getPeerConnection();
+			} catch (error) {
+				if (!peerConnectionRef) return;
+			}
+
 			if (peerConnectionRef.current.remoteDescription) {
 				await peerConnectionRef.current?.addIceCandidate(
 					new RTCIceCandidate(candidate)
