@@ -12,6 +12,7 @@ const chatSlice = createSlice({
 				previous: "",
 				results: [],
 			},
+			unread: 0,
 		},
 		smallDevice: {
 			isSmallDevice: false,
@@ -87,6 +88,7 @@ const chatSlice = createSlice({
 					(p) => p.id !== authUserId
 				)[0];
 				state.currentChat.messages = chat.messages;
+				state.currentChat.unread = chat.unread;
 			}
 		},
 		updateOtherUserWhenCalling: (state, action) => {
@@ -99,9 +101,6 @@ const chatSlice = createSlice({
 			state.currentChat.otherUser = otherUser;
 		},
 		updateSeenMessage: (state, action) => {
-			let isUpdating = false;
-			if (isUpdating) return;
-			isUpdating = true;
 			const { chatId, msgIds } = action.payload;
 
 			state.chatList = state.chatList.map((pc) => {
@@ -119,7 +118,21 @@ const chatSlice = createSlice({
 				}
 				return pc;
 			});
-			isUpdating = false;
+		},
+		updateCurrentChatAllMessagesAsSeen: (state, action) => {
+			state.chatList = state.chatList.map((cl) => {
+				if (cl.id === action.payload) {
+					return {
+						...cl,
+						messages: {
+							results: cl.messages.results.map((pm) => {
+								return { ...pm, status: "seen" };
+							}),
+						},
+					};
+				}
+				return cl;
+			});
 		},
 		clearSeenMessageCount: (state, action) => {
 			const chatId = action.payload;
@@ -165,6 +178,7 @@ export const {
 	updateParticipantsOnlineStatus,
 	updateParticipantsOnlineStatusAndLastSeen,
 	updateSeenMessage,
+	updateCurrentChatAllMessagesAsSeen,
 	updateCurrentChatMessagesWithNextPage,
 	activateOrDeactivateChatAreaForSmallDevice,
 	activateOrDeactivateIsUserInVideoCall,

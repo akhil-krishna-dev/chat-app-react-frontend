@@ -5,6 +5,7 @@ import {
 	updateChatListWithNewChat,
 	updateParticipantsOnlineStatusAndLastSeen,
 	updateOtherUserWhenCalling,
+	updateCurrentChatAllMessagesAsSeen,
 } from "store/chatSlice";
 import { addAnswer, sendAnswer } from "./signalingService";
 import {
@@ -75,6 +76,10 @@ const handleWebSocketMessages = async (
 				msgIds: message_ids,
 			};
 			dispatch(updateSeenMessage(payload));
+			break;
+
+		case "all messages have been read":
+			dispatch(updateCurrentChatAllMessagesAsSeen(data.data));
 			break;
 
 		case "webrtc_offer":

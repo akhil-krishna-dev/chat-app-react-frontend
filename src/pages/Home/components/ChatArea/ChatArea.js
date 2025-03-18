@@ -25,7 +25,7 @@ import { getDayMonthYear } from "utils/dateUtils";
 import { API_URL } from "config";
 
 const ChatArea = ({ currentWebSocket }) => {
-	const { otherUser, messages } = useSelector(
+	const { otherUser, messages, unread } = useSelector(
 		(state) => state.chatList.currentChat
 	);
 	const { chatList } = useSelector((state) => state.chatList);
@@ -144,8 +144,29 @@ const ChatArea = ({ currentWebSocket }) => {
 				targetUserId: otherUser?.id,
 				authUserId: authUser?.id,
 			};
-			makeMessgesAsSeen(data);
+
+			if (unread > messages.results.length) {
+				makeAllMessagesAsSeen();
+				dispatch(clearSeenMessageCount(chatId));
+			} else {
+				if (unread !== 0) {
+					makeMessgesAsSeen(data);
+					dispatch(clearSeenMessageCount(chatId));
+				}
+			}
 		}
+	};
+
+	const makeAllMessagesAsSeen = () => {
+		if (!chatId) return;
+		axios
+			.post(`${API_URL}home/chats/${chatId}/make_all_messages_seen/`)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	const handleScrollTop = async () => {
@@ -161,7 +182,6 @@ const ChatArea = ({ currentWebSocket }) => {
 			chatStartRef.current.scrollHeight
 		) {
 			setUserIsScrollingToTop(false);
-			dispatch(clearSeenMessageCount(chatId));
 		}
 	};
 
