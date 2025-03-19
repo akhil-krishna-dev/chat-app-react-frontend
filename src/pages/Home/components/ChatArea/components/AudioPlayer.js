@@ -5,13 +5,13 @@ import { FaPlay, FaPause } from "react-icons/fa6";
 
 const AudioPlayer = ({ audioUrl }) => {
 	const waveformRef = useRef(null);
-	const wavesurferRef = useRef(null);
+	const [waveSurfer, setWaveSurfer] = useState(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const deviceWidth = window.innerWidth;
 
 	useEffect(() => {
-		if (!wavesurferRef.current) {
-			wavesurferRef.current = WaveSurfer.create({
+		if (!waveSurfer) {
+			const waveSurferObject = WaveSurfer.create({
 				container: waveformRef.current,
 				waveColor: "rgb(175 175 191)",
 				progressColor: "white",
@@ -24,31 +24,35 @@ const AudioPlayer = ({ audioUrl }) => {
 			});
 
 			if (audioUrl) {
-				wavesurferRef.current.load(audioUrl);
+				waveSurferObject.load(audioUrl);
 			}
 
-			wavesurferRef.current.on("finish", () => {
+			waveSurferObject.on("ready", () => {
+				setWaveSurfer(waveSurferObject);
+			});
+
+			waveSurferObject.on("finish", () => {
 				setIsPlaying(false);
 			});
 		}
 
 		return () => {
-			if (wavesurferRef.current) {
-				wavesurferRef.current.destroy();
-				wavesurferRef.current = null;
+			if (waveSurfer) {
+				waveSurfer.destroy();
+				setWaveSurfer(null);
 			}
 		};
-	}, [audioUrl]);
+	}, [audioUrl, waveSurfer]);
 
 	const playVoiceMsg = () => {
 		setIsPlaying(!isPlaying);
-		wavesurferRef.current.playPause();
+		waveSurfer.playPause();
 	};
 
 	const renderAudioDuration = () => {
-		if (!wavesurferRef.current) return "0:00";
-		const voiceDuration = wavesurferRef.current.getDuration();
-		if (wavesurferRef.current) {
+		if (!waveSurfer) return "0:00";
+		const voiceDuration = waveSurfer.getDuration();
+		if (voiceDuration) {
 			const seconds = Math.round(voiceDuration);
 			const mins = Math.floor(seconds / 60);
 			const secs = seconds % 60;
@@ -72,7 +76,7 @@ const AudioPlayer = ({ audioUrl }) => {
 					/>
 				)}
 			</div>
-			{wavesurferRef.current && (
+			{waveSurfer && (
 				<div className="duration-container">
 					{renderAudioDuration()}
 				</div>
