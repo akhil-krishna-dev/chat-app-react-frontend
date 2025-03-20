@@ -18,6 +18,7 @@ const MessageInput = ({
 	audioRecording,
 	setAudioBlob,
 	setAudioRecording,
+	mediaRecorderRef,
 }) => {
 	const [showFileAttach, setShowFileAttach] = useState(false);
 	const [attachDocumentActive, setAttachDocumentActive] = useState(false);
@@ -115,7 +116,6 @@ const MessageInput = ({
 		setAudioBlob(audioBlob);
 		const url = URL.createObjectURL(audioBlob);
 		setAudioURL(url);
-		console.log();
 	};
 
 	const handleAudioRecording = (action) => {
@@ -157,6 +157,7 @@ const MessageInput = ({
 					recording={audioRecording}
 					onRecorded={handlePlayAudio}
 					handleAudioRecording={handleAudioRecording}
+					mediaRecorderRef={mediaRecorderRef}
 				/>
 				<div className="input-container">
 					<input

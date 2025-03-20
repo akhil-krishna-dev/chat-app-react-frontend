@@ -55,6 +55,7 @@ const ChatArea = ({ currentWebSocket }) => {
 
 	const [showEmojyPicker, setShowEmojyPicker] = useState(false);
 
+	const mediaRecorderRef = useRef(null);
 	const [recordingTime, setRecordingTime] = useState(0);
 	const recordingRef = useRef(null);
 	const [audioRecording, setAudioRecording] = useState(false);
@@ -482,6 +483,15 @@ const ChatArea = ({ currentWebSocket }) => {
 		setAudioURL("");
 		setAudioRecording(false);
 		setAudioBlob(null);
+
+		if (
+			mediaRecorderRef.current &&
+			mediaRecorderRef.current.state === "recording"
+		) {
+			mediaRecorderRef.current.ondataavailable = null;
+			mediaRecorderRef.current.stop();
+			mediaRecorderRef.current = null;
+		}
 	};
 
 	const renderVoiceMessage = () => {
@@ -663,6 +673,7 @@ const ChatArea = ({ currentWebSocket }) => {
 				setShowEmojyPicker={setShowEmojyPicker}
 				setMessage={setMessage}
 				message={message}
+				mediaRecorderRef={mediaRecorderRef}
 				audioRecording={audioRecording}
 				setAudioRecording={setAudioRecording}
 				setAudioBlob={setAudioBlob}
