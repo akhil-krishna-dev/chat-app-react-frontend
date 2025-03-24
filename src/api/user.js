@@ -18,7 +18,7 @@ export const fetchUser = (dispatch) => {
 			fetchChats(dispatch);
 		})
 		.catch((error) => {
-			// console.log(error);
+			localStorage.clear();
 		})
 		.finally(() => {
 			dispatch(updateAuthChecked());
@@ -43,5 +43,4 @@ export const fetchUsersWithKeyWords = ({ searchKeyWord, dispatch }) => {
 		.finally(() => {
 			dispatch(updateIsSearchingUsers(false));
 		});
-	// };
 };
